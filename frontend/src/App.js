@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "tailwindcss/tailwind.css";
 import Header from "./components/Header";
 import Sidebar from "./components/Sidebar";
@@ -11,12 +11,21 @@ import ViewAllPosts from "./pages/ViewAllPosts";
 const App = () => {
   const { user } = useUser(); // Get user from context
 
+  // State to manage when new posts are added
+  const [newPost, setNewPost] = useState(false);
+
+  // Function to trigger re-render when post is submitted
+  const handleNewPostSubmission = () => {
+    setNewPost((prevState) => !prevState); // Toggle state to trigger re-render
+  };
+
   return (
     <>
       {/* Conditionally render components based on user's authentication */}
       {user ? (
         <div className="flex">
           {/* Header including Sidebar */}
+          {/* Sidebar component can be included here if needed */}
 
           {/* Main Content (PostForm) */}
           <div className="flex flex-col flex-1 p-4">
@@ -28,12 +37,12 @@ const App = () => {
                 alt="background image"
                 className="w-full h-auto"
               />
-              <PostForm />
+              <PostForm onSubmit={handleNewPostSubmission} /> {/* Pass down handleNewPostSubmission function */}
             </div>
 
             <div className="mt-20">
               {/* ViewAllPosts will display the posts */}
-              <ViewAllPosts />
+              <ViewAllPosts newPost={newPost} /> {/* Pass the newPost state to trigger re-render */}
             </div>
           </div>
         </div>

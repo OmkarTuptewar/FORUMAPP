@@ -6,7 +6,7 @@ import PostList from '../components/PostList'; // Ensure the path is correct
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const ViewAllPosts = () => {
+const ViewAllPosts = ({ newPost }) => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -39,7 +39,7 @@ const ViewAllPosts = () => {
     };
 
     fetchPosts();
-  }, []);
+  }, [newPost]);
 
   if (loading) {
     return (

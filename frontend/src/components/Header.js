@@ -60,31 +60,39 @@ const Header = () => {
 
             {/* Dropdown Menu */}
             {isDropdownOpen && (
-              <div className="absolute right-0 mt-[14em] w-48 bg-white rounded-lg shadow-lg z-50 transition duration-200">
-                <div className="px-4 py-3 text-sm text-gray-900 border-b border-gray-200">
-                  <div className="font-medium">{user.username}</div>
-                  <div className="text-gray-600 truncate">{user.email}</div>
-                </div>
-                <ul className="py-2 text-sm text-gray-700">
-                  <li>
-                    <button
-                      onClick={() => navigate("/profile")}
-                      className="block w-full text-left px-4 py-2 hover:bg-gray-100 transition duration-200 rounded-md"
-                    >
-                      View Profile
-                    </button>
-                  </li>
-                </ul>
-                <div className="py-2 border-t border-gray-200">
-                  <button
-                    onClick={handleLogout}
-                    className="block w-full px-4 py-2 text-sm text-left text-gray-700 hover:bg-gray-100 transition duration-200 rounded-md"
-                  >
-                    Sign out
-                  </button>
-                </div>
-              </div>
-            )}
+  <div className="absolute right-0 mt-[14em] w-56 bg-white rounded-xl shadow-lg z-50 transition-all duration-200 ease-in-out transform scale-95">
+    {/* User Info */}
+    <div className="px-4 py-3 text-sm text-gray-900 border-b border-gray-200 bg-gray-50 rounded-t-xl">
+      <div className="font-semibold text-base truncate">{user.username}</div>
+      <div className="text-gray-500 text-xs truncate">{user.email}</div>
+    </div>
+
+    {/* Menu Options */}
+    <ul className="py-2 text-sm text-gray-800">
+      <li>
+        <button
+          onClick={() => navigate("/profile")}
+          className="block w-full text-left px-4 py-2 hover:bg-blue-100 text-gray-700 transition duration-200 rounded-lg font-medium"
+        >
+          View Profile
+        </button>
+      </li>
+    </ul>
+
+    {/* Sign Out */}
+    <div className="py-2 border-t border-gray-200 bg-gray-50 rounded-b-xl">
+      <button
+        onClick={handleLogout}
+        className="block w-full px-4 py-2 text-sm text-left text-gray-700 hover:bg-red-100 transition duration-200 rounded-lg font-medium"
+      >
+        Sign Out
+      </button>
+    </div>
+  </div>
+)}
+
+
+
           </div>
         </div>
 

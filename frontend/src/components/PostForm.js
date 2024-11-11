@@ -1,21 +1,25 @@
-// PostForm.js
 import React, { useState } from 'react';
 import answerimage from "../assets/images/answer.png";
 import Modal from './Modal'; // Adjust the path as needed
 
-const PostForm = () => {
+const PostForm = ({ onSubmit }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
+  const handlePostSubmit = () => {
+    // When the post is submitted, call the onSubmit handler
+    onSubmit();
+    closeModal(); // Close the modal after submission
+  };
 
   return (
-    <div className="absolute top-[3.5rem]  h-24 left-0 right-0 bottom-0 w-6/12 mx-auto bg-white p-6 rounded-lg shadow-lg flex items-center space-x-4">
+    <div className="absolute top-[3.5rem] h-24 left-0 right-0 bottom-0 w-6/12 mx-auto bg-white p-6 rounded-lg shadow-lg flex items-center space-x-4">
       {/* Icon/ Image on the left */}
       <div className="flex-shrink-0">
-        <img 
-          className="h-16 w-16" 
+        <img
+          className="h-16 w-16"
           src={answerimage}
           alt="Icon"
         />
@@ -38,7 +42,11 @@ const PostForm = () => {
       </div>
 
       {/* Modal */}
-      <Modal isOpen={isModalOpen} onClose={closeModal} />
+      <Modal
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        onSubmit={handlePostSubmit}  // Pass the handlePostSubmit function to Modal
+      />
     </div>
   );
 };

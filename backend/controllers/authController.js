@@ -89,7 +89,7 @@ const getMe = async (req, res) => {
 
 // Update user profile
 const updateUser = async (req, res) => {
-    const { username, profilePicture, about } = req.body;
+    const {name, username, profilePicture, about } = req.body;
 
     try {
         // Find the user by their ID from the token
@@ -100,6 +100,7 @@ const updateUser = async (req, res) => {
         }
 
         // Update the user's details
+        if (name) user.name = name;
         if (username) user.username = username;
         if (profilePicture) user.profilePicture = profilePicture;
         if (about) user.about = about;

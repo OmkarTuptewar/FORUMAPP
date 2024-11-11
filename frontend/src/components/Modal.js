@@ -3,7 +3,7 @@ import axios from 'axios'; // Ensure axios is installed
 import { ToastContainer, toast } from 'react-toastify'; // Import React Toastify
 import 'react-toastify/dist/ReactToastify.css'; // Import Toastify CSS
 
-const Modal = ({ isOpen, onClose}) => {
+const Modal = ({ isOpen, onClose,onSubmit}) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [pic, setPic] = useState(null); // Use 'pic' to store image URL
@@ -117,6 +117,7 @@ const Modal = ({ isOpen, onClose}) => {
         autoClose: 5000,
       });
       setTimeout(() => {
+        onSubmit(); 
         onClose();
       }, 2000);
     } catch (error) {
@@ -127,6 +128,7 @@ const Modal = ({ isOpen, onClose}) => {
         autoClose: 5000,
       });
     }
+    
   };
 
   // Reset state when the modal closes

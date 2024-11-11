@@ -150,84 +150,101 @@ const ViewProfilePage = () => {
   }
 
   return (
-<div className="flex flex-col items-center justify-center bg-gradient-to-r from-blue-100 to-blue-300 min-h-screen ">
-  <ToastContainer /> {/* Toast container to display toasts */}
-  <h1 className="text-3xl font-extrabold text-gray-900 mb-4 text-center drop-shadow-lg">
-    View Profile
+<div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 px-4">
+  <ToastContainer /> {/* Toast container for notifications */}
+
+  <h1 className="text-2xl font-semibold text-gray-800 mb-4 text-center">
+    Profile Overview
   </h1>
-  <img
-    src={profileData.profilePicture || "/path/to/default/profile.png"} // Fallback if no image is uploaded
-    alt="Profile"
-    className="w-28 h-28 rounded-full border-4 border-blue-700 shadow-xl mb-4 hover:scale-110 transition-transform duration-300 ease-in-out"
-  />
-  <form
-    onSubmit={handleSubmit}
-    className="bg-white bg-opacity-90 backdrop-blur-md p-6 rounded-3xl shadow-2xl w-full max-w-md space-y-1"
-  >
-    <div className="space-y-1">
-      <label className="block text-lg font-semibold text-gray-800">Name</label>
-      <input
-        type="text"
-        name="name"
-        value={profileData.name}
-        onChange={handleChange}
-        className="block w-full border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-600 focus:border-blue-600 py-2 px-4 transition duration-200 ease-in-out hover:bg-blue-50"
-        required
+
+  <div className="w-full max-w-sm bg-white rounded-xl shadow-md p-6 space-y-6">
+    {/* Profile Picture */}
+    <div className="flex flex-col items-center space-y-3">
+      <img
+        src={profileData.profilePicture || "/path/to/default/profile.png"}
+        alt="Profile"
+        className="w-24 h-24 rounded-full border-2 border-gray-300 shadow-sm transition-transform duration-200 transform hover:scale-105"
       />
-    </div>
-    <div>
-      <label className="block text-lg font-semibold text-gray-800">Username</label>
+      <button
+        className="text-blue-600 text-sm font-medium hover:underline focus:outline-none"
+        onClick={() => document.getElementById('profilePicture').click()}
+      >
+        Change Profile Picture
+      </button>
       <input
-        type="text"
-        name="username"
-        value={profileData.username}
-        onChange={handleChange}
-        className="block w-full border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-600 focus:border-blue-600 py-2 px-4 transition duration-200 ease-in-out hover:bg-blue-50"
-        required
-      />
-    </div>
-    <div>
-      <label className="block text-lg font-semibold text-gray-800">Email</label>
-      <input
-        type="email"
-        name="email"
-        value={profileData.email}
-        onChange={handleChange}
-        className="block w-full border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-600 focus:border-blue-600 py-2 px-4 transition duration-200 ease-in-out bg-gray-100 cursor-not-allowed"
-        disabled // Make email read-only
-      />
-    </div>
-    <div>
-      <label className="block text-lg font-semibold text-gray-800">About</label>
-      <textarea
-        name="about"
-        value={profileData.about}
-        onChange={handleChange}
-        className="block w-full border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-600 focus:border-blue-600 py-2 px-4 transition duration-200 ease-in-out hover:bg-blue-50"
-        rows="3"
-      />
-    </div>
-    <div>
-      <label className="block text-lg font-semibold text-gray-800">Profile Picture</label>
-      <input
+        id="profilePicture"
         type="file"
         accept="image/jpeg, image/png"
         onChange={handleImageUpload}
-        className="block w-full border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-600 focus:border-blue-600 py-2 px-4 transition duration-200 ease-in-out hover:bg-blue-50"
+        className="hidden"
       />
     </div>
-    <div className="flex justify-end">
-      <button
-        type="submit"
-        className="px-6 py-2 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition duration-300 transform hover:scale-105 focus:ring-4 focus:ring-blue-300"
-      >
-        Update Profile
-      </button>
-    </div>
-  </form>
+
+    {/* Form */}
+    <form onSubmit={handleSubmit} className="space-y-4">
+      {/* Name Input */}
+      <div>
+        <label className="block text-sm font-medium text-gray-600">Full Name</label>
+        <input
+          type="text"
+          name="name"
+          value={profileData.name}
+          onChange={handleChange}
+          className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 py-2 px-3 text-gray-800 text-sm"
+          required
+        />
+      </div>
+
+      {/* Username Input */}
+      <div>
+        <label className="block text-sm font-medium text-gray-600">Username</label>
+        <input
+          type="text"
+          name="username"
+          value={profileData.username}
+          onChange={handleChange}
+          className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 py-2 px-3 text-gray-800 text-sm"
+          required
+        />
+      </div>
+
+      {/* Email (Read-only) */}
+      <div>
+        <label className="block text-sm font-medium text-gray-600">Email Address</label>
+        <input
+          type="email"
+          name="email"
+          value={profileData.email}
+          onChange={handleChange}
+          className="mt-1 block w-full border-gray-200 rounded-md shadow-sm py-2 px-3 text-gray-500 bg-gray-50 text-sm cursor-not-allowed"
+          disabled
+        />
+      </div>
+
+      {/* About Input */}
+      <div>
+        <label className="block text-sm font-medium text-gray-600">About</label>
+        <textarea
+          name="about"
+          value={profileData.about}
+          onChange={handleChange}
+          className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 py-2 px-3 text-gray-800 text-sm"
+          rows="2"
+        />
+      </div>
+
+      {/* Update Button */}
+      <div className="flex justify-center">
+        <button
+          type="submit"
+          className="px-4 py-2 bg-blue-600 text-white font-medium rounded-md shadow hover:bg-blue-700 transition-transform transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-400"
+        >
+          Update Profile
+        </button>
+      </div>
+    </form>
+  </div>
 </div>
-
-
 
 
 
