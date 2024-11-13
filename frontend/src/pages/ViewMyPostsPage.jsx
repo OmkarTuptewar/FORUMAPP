@@ -26,7 +26,7 @@ const ViewMyPostsPage = () => {
       }
 
       try {
-        const response = await axios.get(`http://localhost:5000/api/posts/user/${user._id}`, {
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/posts/user/${user._id}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setPosts(response.data);

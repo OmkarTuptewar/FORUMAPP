@@ -2,6 +2,69 @@ const express = require('express');
 const User = require('../models/UserModal'); // Adjust the path according to your project structure
 const jwt = require('jsonwebtoken'); 
 const bcrypt = require('bcrypt'); 
+const { OAuth2Client } = require('google-auth-library');
+
+
+// Initialize OAuth2Client with your Google Client ID
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+
+
+
+// Google Login
+// Google Login Controller
+const googleLogin = async (req, res) => {
+    const { token: googleToken } = req.body; // Rename Google token to googleToken
+  
+    if (!googleToken) {
+      return res.status(400).json({ message: 'No token provided' });
+    }
+  
+    try {
+      // Verify the Google token
+      const ticket = await client.verifyIdToken({
+        idToken: googleToken, // Use googleToken here
+        audience: process.env.GOOGLE_CLIENT_ID, // Your Google Client ID
+      });
+  
+      const payload = ticket.getPayload();
+      const { sub, name, email, picture } = payload; // Extract user data from the token
+  
+      // Check if the user already exists in the database
+      let user = await User.findOne({  email });
+  
+      if (!user) {
+        // If not, create a new user without a password and username (or use the name as username)
+        user = new User({
+          googleId: sub,
+          name,
+          email,
+          username: name, // Optionally use the name from Google as the username
+          password: 'omkarTuptewar', //set password for google login
+        });
+  
+        await user.save();
+      }
+  
+      // Generate JWT token for the user (keep the name 'token' for the generated JWT)
+      const token = generateToken(user._id);
+  
+      // Send user details along with the token in the response
+      res.status(200).json({
+        _id: user._id,
+        name: user.name,
+        username: user.username,
+        email: user.email,
+        about: user.about,
+        image:user.profilePicture,
+        token,  // Send the JWT token
+      });
+    } catch (error) {
+      console.error('Error during Google login:', error);
+      res.status(500).json({ message: 'Internal Server Error' });
+    }
+  };
+  
+
 
 // Register a new user
 const register = async (req, res) => {
@@ -131,4 +194,4 @@ const generateToken = (userId) => {
     return jwt.sign({ id: userId }, process.env.JWT_SECRET, { expiresIn: '30d' });
 };
 
-module.exports = { register, login, getMe, updateUser };
+module.exports = { register, login, getMe, updateUser,googleLogin };

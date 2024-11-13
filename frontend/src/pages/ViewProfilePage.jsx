@@ -32,7 +32,7 @@ const ViewProfilePage = () => {
 
     const fetchUserData = async () => {
       try {
-        const response = await fetch("http://localhost:5000/api/auth/me", {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/api/auth/me`, {
           headers: {
             Authorization: `Bearer ${token}`, // Add Bearer token to headers
           },
@@ -161,7 +161,7 @@ const ViewProfilePage = () => {
     {/* Profile Picture */}
     <div className="flex flex-col items-center space-y-3">
       <img
-        src={profileData.profilePicture || "/path/to/default/profile.png"}
+        src={profileData.profilePicture }
         alt="Profile"
         className="w-24 h-24 rounded-full border-2 border-gray-300 shadow-sm transition-transform duration-200 transform hover:scale-105"
       />

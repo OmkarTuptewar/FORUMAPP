@@ -1,34 +1,28 @@
-// src/pages/ViewAllPosts.jsx
-
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import PostList from '../components/PostList'; // Ensure the path is correct
-import { ToastContainer, toast } from 'react-toastify';
+import PostList from '../components/PostList';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const ViewAllPosts = ({ newPost }) => {
+const ViewAllPosts = ({ newPost, searchQuery = '' }) => { // Set a default value for searchQuery
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Fetch posts from backend
   useEffect(() => {
     const fetchPosts = async () => {
       try {
         const token = localStorage.getItem('token');
-
         if (!token) {
           setError('No authentication token found. Please log in.');
           setLoading(false);
           return;
         }
-
-        const response = await axios.get('http://localhost:5000/api/posts', {
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/posts`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
-
         setPosts(response.data);
         setLoading(false);
       } catch (err) {
@@ -40,6 +34,13 @@ const ViewAllPosts = ({ newPost }) => {
 
     fetchPosts();
   }, [newPost]);
+
+  // Filter posts based on search query
+  const filteredPosts = posts.filter(post => 
+    (post.author?.name?.toLowerCase().includes(searchQuery.toLowerCase()) || '') ||
+    (post.title?.toLowerCase().includes(searchQuery.toLowerCase()) || '') ||
+    (post.content?.toLowerCase().includes(searchQuery.toLowerCase()) || '')
+  );
 
   if (loading) {
     return (
@@ -58,15 +59,10 @@ const ViewAllPosts = ({ newPost }) => {
   }
 
   return (
-   <>
-     <div className=' overflow-y-auto'>
-     <ToastContainer/>
-     <PostList posts={posts} setPosts={setPosts} />
-     </div>
-     
-   </>
-  
-
+    <div className="overflow-y-auto">
+      <ToastContainer />
+      <PostList posts={filteredPosts} setPosts={setPosts} />
+    </div>
   );
 };
 

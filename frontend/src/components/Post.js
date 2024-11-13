@@ -63,7 +63,7 @@ const Post = ({ post, setPosts }) => {
       );
 
       const response = await axios.put(
-        `http://localhost:5000/api/posts/${post._id}/like`,
+        `${process.env.REACT_APP_API_URL}/api/posts/${post._id}/like`,
         {},
         {
           headers: {
@@ -147,7 +147,7 @@ const Post = ({ post, setPosts }) => {
         return;
       }
 
-      await axios.delete(`http://localhost:5000/api/posts/delete/${post._id}`, {
+      await axios.delete(`${process.env.REACT_APP_API_URL}/api/posts/delete/${post._id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -198,7 +198,7 @@ const Post = ({ post, setPosts }) => {
         }
 
         const response = await axios.put(
-          `http://localhost:5000/api/posts/${post._id}`,
+          `${process.env.REACT_APP_API_URL}/api/posts/${post._id}`,
           editedData,
           {
             headers: {

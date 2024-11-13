@@ -3,7 +3,9 @@ import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import { toast, ToastContainer } from 'react-toastify'; // Import toast and ToastContainer
 import 'react-toastify/dist/ReactToastify.css'; // Import CSS for react-toastify
 import { useUser } from '../../context/UserContext'; // Import the UserContext
+import bgimage from '../../assets/images/forumimage.jpg'
 const Signup = () => {
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate(); // Create a navigate function
   const { setUser } = useUser(); // Get the setUser function from UserContext
   const [formData, setFormData] = useState({
@@ -29,7 +31,7 @@ const Signup = () => {
 
     // Add your signup logic here
     try {
-      const response = await fetch('http://localhost:5000/api/auth/register', {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/auth/register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -63,130 +65,135 @@ const Signup = () => {
 
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} closeOnClick pauseOnHover draggable />
-      <div className="w-full max-w-md p-8 space-y-6 bg-white shadow-lg rounded-lg">
-        {/* Logo Section */}
-        <div className="text-center">
-          <h1 className="text-3xl font-bold text-gray-800">KnowMyslots</h1>
-          <p className="text-gray-500 mt-2">Create your account to get started!</p>
+<section className="flex flex-col md:flex-row h-screen items-center">
+      
+      <div className="bg-neutral-100 hidden lg:flex w-full md:w-1/2 xl:w-2/3 h-screen items-center justify-center flex-col relative">
+        {/* Top-left logo and title */}
+        <div className="absolute top-4 left-4 flex items-center px-4 space-x-4">
+          <img
+            src="https://knowmyslots.com/wp-content/uploads/2024/01/logo.png"
+            alt="Logo"
+            className="w-16 h-auto rounded-md shadow-2xl"
+          />
+          <h1 className="text-3xl font-bold text-gray-800 bg-">KnowMySlots</h1>
         </div>
-
-        {/* Signup Form */}
-        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-          <div className="space-y-4">
-            {/* Full Name Input */}
-            <div>
-              <label htmlFor="name" className="block text-sm font-medium text-gray-700">
-                Full Name
-              </label>
-              <input
-                id="name"
-                name="name"
-                type="text"
-                autoComplete="name"
-                required
-                value={formData.name}
-                onChange={handleChange}
-                className="w-full px-3 py-2 mt-1 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                placeholder="Enter your full name"
-              />
-            </div>
-
-            {/* Username Input */}
-            <div>
-              <label htmlFor="username" className="block text-sm font-medium text-gray-700">
-                Username
-              </label>
-              <input
-                id="username"
-                name="username"
-                type="text"
-                required
-                value={formData.username}
-                onChange={handleChange}
-                className="w-full px-3 py-2 mt-1 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                placeholder="Enter your username"
-              />
-            </div>
-
-            {/* Email Input */}
-            <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                Email address
-              </label>
-              <input
-                id="email"
-                name="email"
-                type="email"
-                autoComplete="email"
-                required
-                value={formData.email}
-                onChange={handleChange}
-                className="w-full px-3 py-2 mt-1 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                placeholder="Enter your email"
-              />
-            </div>
-
-            {/* Password Input */}
-            <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700">
-                Password
-              </label>
-              <input
-                id="password"
-                name="password"
-                type="password"
-                autoComplete="new-password"
-                required
-                value={formData.password}
-                onChange={handleChange}
-                className="w-full px-3 py-2 mt-1 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                placeholder="Create a password"
-              />
-            </div>
-
-            {/* Confirm Password Input */}
-            <div>
-              <label htmlFor="confirm_password" className="block text-sm font-medium text-gray-700">
-                Confirm Password
-              </label>
-              <input
-                id="confirm_password"
-                name="confirm_password"
-                type="password"
-                autoComplete="new-password"
-                required
-                value={formData.confirm_password}
-                onChange={handleChange}
-                className="w-full px-3 py-2 mt-1 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                placeholder="Confirm your password"
-              />
-            </div>
-          </div>
-
-          {/* Signup Button */}
-          <div>
-            <button
-              type="submit"
-              className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 text-lg font-semibold"
-            >
-              Sign up
-            </button>
-          </div>
-        </form>
-
-        {/* Login Option */}
-        <div className="text-center">
-          <p className="text-sm text-gray-600">
-            Already have an account?{' '}
-            <a href="/" className="font-medium text-indigo-600 hover:text-indigo-500">
-              Log in
-            </a>
-          </p>
-        </div>
+    
+        {/* Centered content */}
+        <img
+          src={bgimage}
+          alt="Background representing KnowMySlots community"
+          className="h-[45vh] w-auto object-cover border-black border-y-2 rounded-md shadow-sm"
+        />
+        <h1 className="text-2xl md:text-3xl lg:text-4xl font-extrabold leading-snug text-center mt-4 text-gray-800">
+          <span className="block">Welcome to KnowMySlots</span>
+          <span className="text-lg md:text-xl lg:text-2xl font-semibold mt-2 block text-gray-700">
+            Join our community to unlock unparalleled expertise and dedicated support!
+          </span>
+        </h1>
       </div>
-    </div>
+
+
+    
+<div className="bg-white w-full md:max-w-md lg:max-w-full md:mx-auto md:mx-0 md:w-1/2 xl:w-1/3 h-screen px-6 lg:px-8 xl:px-12 flex items-center justify-center">
+  <div className="w-full h-auto">
+    <form className="mt-1" onSubmit={handleSubmit}>
+      <h1 className="text-2xl font-semibold font-mono text-gray-800 p-3">Sign Up to Create an Account</h1>
+
+      <div>
+        <label className="block text-gray-700 text-sm">Full Name</label>
+        <input
+          type="text"
+          name="name"
+          placeholder="Enter Full Name"
+          value={formData.name}
+          onChange={handleChange}
+          className="w-full px-4 py-3 rounded-lg bg-gray-200 mt-2 text-sm border focus:border-blue-500 focus:bg-white focus:outline-none"
+          required
+        />
+      </div>
+
+      <div className="mt-4">
+        <label className="block text-gray-700 text-sm">Username</label>
+        <input
+          type="text"
+          name="username"
+          placeholder="Choose a Username"
+          value={formData.username}
+          onChange={handleChange}
+          className="w-full px-4 py-3 rounded-lg bg-gray-200 mt-2 text-sm border focus:border-blue-500 focus:bg-white focus:outline-none"
+          required
+        />
+      </div>
+
+      <div className="mt-4">
+        <label className="block text-gray-700 text-sm">Email Address</label>
+        <input
+          type="email"
+          name="email"
+          placeholder="Enter Email Address"
+          value={formData.email}
+          onChange={handleChange}
+          className="w-full px-4 py-3 rounded-lg bg-gray-200 mt-2 text-sm border focus:border-blue-500 focus:bg-white focus:outline-none"
+          required
+        />
+      </div>
+
+      <div className="mt-4">
+        <label className="block text-gray-700 text-sm">Password</label>
+        <input
+          type="password"
+          name="password"
+          placeholder="Create a Password"
+          value={formData.password}
+          onChange={handleChange}
+          className="w-full px-4 py-3 rounded-lg bg-gray-200 mt-2 text-sm border focus:border-blue-500 focus:bg-white focus:outline-none"
+          required
+        />
+      </div>
+
+      <div className="mt-4">
+        <label className="block text-gray-700 text-sm">Confirm Password</label>
+        <input
+          type="password"
+          name="confirm_password"
+          placeholder="Confirm your Password"
+          value={formData.confirm_password}
+          onChange={handleChange}
+          className="w-full px-4 py-3 rounded-lg bg-gray-200 mt-2 text-sm border focus:border-blue-500 focus:bg-white focus:outline-none"
+          required
+        />
+      </div>
+
+      <button
+        type="submit"
+        className="w-full block bg-indigo-500 hover:bg-indigo-400 focus:bg-indigo-400 text-white font-semibold rounded-lg px-4 py-3 mt-6"
+      >
+        Sign Up
+      </button>
+    </form>
+
+    <hr className="my-6 border-gray-300 w-full" />
+
+   
+
+    <p className="text-center ">
+      Already have an account?{" "}
+      <a
+        href="/login"
+        className="text-blue-500 hover:text-blue-700 font-semibold"
+      >
+        Log in
+      </a>
+    </p>
+  </div>
+</div>
+
+
+    
+      <ToastContainer />
+    </section>
+    
+  
   );
 };
 

@@ -32,7 +32,7 @@ const CommentSection = ({ postId, initialComments, setComments }) => {
       }
 
       const response = await axios.post(
-        `http://localhost:5000/api/posts/${postId}/comments`,
+        `${process.env.REACT_APP_API_URL}/api/posts/${postId}/comments`,
         { content: newComment },
         {
           headers: {
