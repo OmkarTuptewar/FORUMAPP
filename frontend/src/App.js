@@ -1,3 +1,4 @@
+import { useDarkMode } from './context/DarkModeContext'; // Import useDarkMode
 import React, { useState } from "react";
 import Header from "./components/Header";
 import PostForm from "./components/PostForm";
@@ -7,6 +8,7 @@ import { useUser } from "./context/UserContext";
 
 const App = () => {
   const { user } = useUser(); 
+  const { isDarkMode } = useDarkMode(); // Get dark mode status from context
   const [newPost, setNewPost] = useState(false);
   const [searchQuery, setSearchQuery] = useState(""); // Add search query state
 
@@ -15,7 +17,7 @@ const App = () => {
   };
 
   return (
-    <>
+    <div className={isDarkMode ? "bg-gray-900 text-white" : "bg-white text-gray-900"}>
       {user ? (
         <div className="flex">
           <div className="flex flex-col flex-1 p-4">
@@ -34,7 +36,7 @@ const App = () => {
           <h2 className="text-xl font-semibold">Please log in to access the content</h2>
         </div>
       )}
-    </>
+    </div>
   );
 };
 

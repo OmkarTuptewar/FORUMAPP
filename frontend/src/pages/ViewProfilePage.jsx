@@ -3,8 +3,9 @@ import { useUser } from "../context/UserContext"; // Assuming you have a UserCon
 import { useNavigate } from "react-router-dom"; // For navigation
 import { toast, ToastContainer } from "react-toastify";
 import axios from "axios"; // Import axios for API requests
-
+import { useDarkMode } from '../context/DarkModeContext'; 
 const ViewProfilePage = () => {
+  const { isDarkMode } = useDarkMode(); // Get dark mode status
   const { user, updateUser } = useUser(); // Get user and updateUser from context
   const [profileData, setProfileData] = useState({
     name: "",
@@ -150,102 +151,101 @@ const ViewProfilePage = () => {
   }
 
   return (
-<div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 px-4">
-  <ToastContainer /> {/* Toast container for notifications */}
+<div className={`flex flex-col items-center justify-center min-h-screen px-4 ${isDarkMode ? 'bg-gray-900' : 'bg-gray-100'}`}>
+      <ToastContainer /> {/* Toast container for notifications */}
 
-  <h1 className="text-2xl font-semibold text-gray-800 mb-4 text-center">
-    Profile Overview
-  </h1>
+      <h1 className={`text-2xl font-semibold mb-4 text-center ${isDarkMode ? 'text-white' : 'text-gray-800'}`}>
+        Profile Overview
+      </h1>
 
-  <div className="w-full max-w-sm bg-white rounded-xl shadow-md p-6 space-y-6">
-    {/* Profile Picture */}
-    <div className="flex flex-col items-center space-y-3">
-      <img
-        src={profileData.profilePicture }
-        alt="Profile"
-        className="w-24 h-24 rounded-full border-2 border-gray-300 shadow-sm transition-transform duration-200 transform hover:scale-105"
-      />
-      <button
-        className="text-blue-600 text-sm font-medium hover:underline focus:outline-none"
-        onClick={() => document.getElementById('profilePicture').click()}
-      >
-        Change Profile Picture
-      </button>
-      <input
-        id="profilePicture"
-        type="file"
-        accept="image/jpeg, image/png"
-        onChange={handleImageUpload}
-        className="hidden"
-      />
+      <div className={`w-full max-w-sm rounded-xl shadow-md p-6 space-y-6 ${isDarkMode ? 'bg-gray-800' : 'bg-white'}`}>
+        {/* Profile Picture */}
+        <div className="flex flex-col items-center space-y-3">
+          <img
+            src={profileData.profilePicture}
+            alt="Profile"
+            className="w-24 h-24 rounded-full border-2 border-gray-300 shadow-sm transition-transform duration-200 transform hover:scale-105"
+          />
+          <button
+            className={`text-blue-600 text-sm font-medium hover:underline focus:outline-none ${isDarkMode ? 'text-blue-400' : 'text-blue-600'}`}
+            onClick={() => document.getElementById('profilePicture').click()}
+          >
+            Change Profile Picture
+          </button>
+          <input
+            id="profilePicture"
+            type="file"
+            accept="image/jpeg, image/png"
+            onChange={handleImageUpload}
+            className="hidden"
+          />
+        </div>
+
+        {/* Form */}
+        <form onSubmit={handleSubmit} className="space-y-4">
+          {/* Name Input */}
+          <div>
+            <label className={`block text-sm font-medium ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>Full Name</label>
+            <input
+              type="text"
+              name="name"
+              value={profileData.name}
+              onChange={handleChange}
+              className={`mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 py-2 px-3 text-sm ${isDarkMode ? 'bg-gray-700 text-white' : 'text-gray-800'}`}
+              required
+            />
+          </div>
+
+          {/* Username Input */}
+          <div>
+            <label className={`block text-sm font-medium ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>Username</label>
+            <input
+              type="text"
+              name="username"
+              value={profileData.username}
+              onChange={handleChange}
+              className={`mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 py-2 px-3 text-sm ${isDarkMode ? 'bg-gray-700 text-white' : 'text-gray-800'}`}
+              required
+            />
+          </div>
+
+          {/* Email (Read-only) */}
+          <div>
+            <label className={`block text-sm font-medium ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>Email Address</label>
+            <input
+              type="email"
+              name="email"
+              value={profileData.email}
+              onChange={handleChange}
+              className={`mt-1 block w-full border-gray-200 rounded-md shadow-sm py-2 px-3 text-sm cursor-not-allowed ${isDarkMode ? 'bg-gray-600 text-gray-400' : 'bg-gray-50 text-gray-500'}`}
+              disabled
+            />
+          </div>
+
+          {/* About Input */}
+          <div>
+            <label className={`block text-sm font-medium ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>About</label>
+            <textarea
+              name="about"
+              value={profileData.about}
+              onChange={handleChange}
+              className={`mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 py-2 px-3 text-sm ${isDarkMode ? 'bg-gray-700 text-white' : 'text-gray-800'}`}
+              rows="2"
+            />
+          </div>
+
+          {/* Update Button */}
+          <div className="flex justify-center">
+            <button
+              type="submit"
+              className="px-4 py-2 bg-blue-600 text-white font-medium rounded-md shadow hover:bg-blue-700 transition-transform transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-400"
+            >
+              Update Profile
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
-
-    {/* Form */}
-    <form onSubmit={handleSubmit} className="space-y-4">
-      {/* Name Input */}
-      <div>
-        <label className="block text-sm font-medium text-gray-600">Full Name</label>
-        <input
-          type="text"
-          name="name"
-          value={profileData.name}
-          onChange={handleChange}
-          className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 py-2 px-3 text-gray-800 text-sm"
-          required
-        />
-      </div>
-
-      {/* Username Input */}
-      <div>
-        <label className="block text-sm font-medium text-gray-600">Username</label>
-        <input
-          type="text"
-          name="username"
-          value={profileData.username}
-          onChange={handleChange}
-          className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 py-2 px-3 text-gray-800 text-sm"
-          required
-        />
-      </div>
-
-      {/* Email (Read-only) */}
-      <div>
-        <label className="block text-sm font-medium text-gray-600">Email Address</label>
-        <input
-          type="email"
-          name="email"
-          value={profileData.email}
-          onChange={handleChange}
-          className="mt-1 block w-full border-gray-200 rounded-md shadow-sm py-2 px-3 text-gray-500 bg-gray-50 text-sm cursor-not-allowed"
-          disabled
-        />
-      </div>
-
-      {/* About Input */}
-      <div>
-        <label className="block text-sm font-medium text-gray-600">About</label>
-        <textarea
-          name="about"
-          value={profileData.about}
-          onChange={handleChange}
-          className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 py-2 px-3 text-gray-800 text-sm"
-          rows="2"
-        />
-      </div>
-
-      {/* Update Button */}
-      <div className="flex justify-center">
-        <button
-          type="submit"
-          className="px-4 py-2 bg-blue-600 text-white font-medium rounded-md shadow hover:bg-blue-700 transition-transform transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-400"
-        >
-          Update Profile
-        </button>
-      </div>
-    </form>
-  </div>
-</div>
-
 
 
 

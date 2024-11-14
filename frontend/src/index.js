@@ -14,6 +14,7 @@ import Modal from 'react-modal';
 
 // Import the Google OAuth provider
 import { GoogleOAuthProvider } from '@react-oauth/google';
+import { DarkModeProvider } from './context/DarkModeContext';
 
 Modal.setAppElement('#root');
 
@@ -66,10 +67,12 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 // Wrap your application with GoogleOAuthProvider
 root.render(
   <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
+  <DarkModeProvider>
     <UserProvider>
       <React.StrictMode>
         <MainApp />
       </React.StrictMode>
     </UserProvider>
+    </DarkModeProvider>
   </GoogleOAuthProvider>
 );

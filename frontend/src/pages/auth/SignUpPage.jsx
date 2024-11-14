@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
-import { toast, ToastContainer } from 'react-toastify'; // Import toast and ToastContainer
-import 'react-toastify/dist/ReactToastify.css'; // Import CSS for react-toastify
-import { useUser } from '../../context/UserContext'; // Import the UserContext
+import { useNavigate } from 'react-router-dom';
+import { toast, ToastContainer } from 'react-toastify'; 
+import 'react-toastify/dist/ReactToastify.css'; 
+import { useUser } from '../../context/UserContext'; 
 import bgimage from '../../assets/images/forumimage.jpg'
 const Signup = () => {
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate(); // Create a navigate function
-  const { setUser } = useUser(); // Get the setUser function from UserContext
+  const navigate = useNavigate(); 
+  const { setUser } = useUser(); 
   const [formData, setFormData] = useState({
     name: '',
     username: '',
@@ -25,7 +25,7 @@ const Signup = () => {
     e.preventDefault();
 
     if (formData.password !== formData.confirm_password) {
-      toast.error('Passwords do not match'); // Show error toast
+      toast.error('Passwords do not match'); 
       return;
     }
 
@@ -42,24 +42,24 @@ const Signup = () => {
       if (response.ok) {
         const userData = await response.json();
 
-        // Store user data in localStorage
+      
         localStorage.setItem('userInfo', JSON.stringify(userData));
         localStorage.setItem('token', userData.token);
-        // Update the context with the newly registered user data
+       
         setUser(userData);
 
         toast.success('Signup successful! Redirecting...');
         setTimeout(() => {
-          // Redirect to the homepage or another page
+        
           navigate('/Home');
         }, 1000); 
       } else {
         const errorData = await response.json();
-        toast.error(errorData.message || 'Signup failed'); // Show error toast
+        toast.error(errorData.message || 'Signup failed');
       }
     } catch (error) {
       console.error('Error during signup:', error);
-      toast.error('Signup failed, please try again.'); // Show error toast
+      toast.error('Signup failed, please try again.'); 
     }
   };
 
@@ -107,7 +107,7 @@ const Signup = () => {
           placeholder="Enter Full Name"
           value={formData.name}
           onChange={handleChange}
-          className="w-full px-4 py-3 rounded-lg bg-gray-200 mt-2 text-sm border focus:border-blue-500 focus:bg-white focus:outline-none"
+          className="w-full px-4 py-3 rounded-lg bg-gray-200 mt-2 text-sm border  text-black focus:border-blue-500 focus:bg-white focus:outline-none"
           required
         />
       </div>
@@ -120,7 +120,7 @@ const Signup = () => {
           placeholder="Choose a Username"
           value={formData.username}
           onChange={handleChange}
-          className="w-full px-4 py-3 rounded-lg bg-gray-200 mt-2 text-sm border focus:border-blue-500 focus:bg-white focus:outline-none"
+          className="w-full px-4 py-3 rounded-lg bg-gray-200 mt-2 text-sm border  text-black focus:border-blue-500 focus:bg-white focus:outline-none"
           required
         />
       </div>
@@ -133,7 +133,7 @@ const Signup = () => {
           placeholder="Enter Email Address"
           value={formData.email}
           onChange={handleChange}
-          className="w-full px-4 py-3 rounded-lg bg-gray-200 mt-2 text-sm border focus:border-blue-500 focus:bg-white focus:outline-none"
+          className="w-full px-4 py-3 rounded-lg bg-gray-200 mt-2 text-sm border  text-black focus:border-blue-500 focus:bg-white focus:outline-none"
           required
         />
       </div>
@@ -146,7 +146,7 @@ const Signup = () => {
           placeholder="Create a Password"
           value={formData.password}
           onChange={handleChange}
-          className="w-full px-4 py-3 rounded-lg bg-gray-200 mt-2 text-sm border focus:border-blue-500 focus:bg-white focus:outline-none"
+          className="w-full px-4 py-3 rounded-lg bg-gray-200 mt-2 text-sm border  text-black focus:border-blue-500 focus:bg-white focus:outline-none"
           required
         />
       </div>
@@ -159,7 +159,7 @@ const Signup = () => {
           placeholder="Confirm your Password"
           value={formData.confirm_password}
           onChange={handleChange}
-          className="w-full px-4 py-3 rounded-lg bg-gray-200 mt-2 text-sm border focus:border-blue-500 focus:bg-white focus:outline-none"
+          className="w-full px-4 py-3 rounded-lg bg-gray-200 mt-2 text-sm border  text-black focus:border-blue-500 focus:bg-white focus:outline-none"
           required
         />
       </div>
@@ -176,7 +176,7 @@ const Signup = () => {
 
    
 
-    <p className="text-center ">
+    <p className="text-center  text-black">
       Already have an account?{" "}
       <a
         href="/login"

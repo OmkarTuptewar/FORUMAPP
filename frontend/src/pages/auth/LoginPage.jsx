@@ -5,8 +5,10 @@ import { useNavigate } from "react-router-dom";
 import { useUser } from "../../context/UserContext";
 import bgimage from '../../assets/images/forumimage.jpg'
 import { GoogleLogin } from "@react-oauth/google"; // Import GoogleLogin component
+import { useDarkMode } from "../../context/DarkModeContext";
 
 const Login = () => {
+  const { darkMode, toggleDarkMode } = useDarkMode();
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { setUser } = useUser();
@@ -134,7 +136,7 @@ const Login = () => {
                 placeholder="Enter Email Address"
                 value={formData.email}
                 onChange={handleChange}
-                className="w-full px-4 py-3 rounded-lg bg-gray-200 mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none"
+                className="w-full px-4 py-3 rounded-lg bg-gray-200 text-black mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none"
                 required
               />
             </div>
@@ -147,7 +149,7 @@ const Login = () => {
                 placeholder="Enter Password"
                 value={formData.password}
                 onChange={handleChange}
-                className="w-full px-4 py-3 rounded-lg bg-gray-200 mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none"
+                className="w-full px-4 py-3 rounded-lg bg-gray-200 mt-2 border  text-black focus:border-blue-500 focus:bg-white focus:outline-none"
                 required
               />
             </div>
@@ -181,7 +183,7 @@ const Login = () => {
             theme="outline"
           />
           
-          <p className="mt-8 text-center">
+          <p className="mt-8 text-center  text-black">
             Need an account?{" "}
             <a
               href="/signup"

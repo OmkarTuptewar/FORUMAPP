@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import axios from 'axios'; // Ensure axios is installed
 import { ToastContainer, toast } from 'react-toastify'; // Import React Toastify
 import 'react-toastify/dist/ReactToastify.css'; // Import Toastify CSS
-
+import { useDarkMode } from '../context/DarkModeContext';
 const Modal = ({ isOpen, onClose,onSubmit}) => {
+  const { isDarkMode } = useDarkMode(); // Get dark mode status
+
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [pic, setPic] = useState(null); // Use 'pic' to store image URL
@@ -145,85 +147,87 @@ const Modal = ({ isOpen, onClose,onSubmit}) => {
 
   return (
     <>
-      <ToastContainer /> {/* Toast container to display toasts */}
-      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-        <div className="bg-white p-6 rounded-lg w-8/12 max-w-lg mx-4">
-          <h2 className="text-xl mb-4">Post a Question</h2>
+    <ToastContainer /> {/* Toast container to display toasts */}
+  
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+  <div className="bg-white dark:bg-gray-800 p-6 rounded-lg w-full sm:w-10/12 md:w-8/12 lg:w-6/12 xl:w-5/12 max-w-lg mx-4">
+    <h2 className="text-xl mb-4 text-gray-800 dark:text-white">Post a Question</h2>
 
-          {errorMessage && <div className="mb-4 text-red-600">{errorMessage}</div>}
+    {errorMessage && <div className="mb-4 text-red-600">{errorMessage}</div>}
 
-          <form onSubmit={handleSubmit}>
-            <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-700">Title</label>
-              <input
-                type="text"
-                className="w-full border border-gray-300 p-2 rounded-lg"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-                required
-              />
-
-
-            </div>
-            <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-700">Description</label>
-              <textarea
-                className="w-full border border-gray-300 p-2 rounded-lg"
-                rows="5"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                required
-              ></textarea>
-            </div>
-
-            <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-700">Category</label>
-              <select
-                className="w-full border border-gray-300 p-2 rounded-lg"
-                value={category}
-                onChange={(e) => setCategory(e.target.value)}
-                required
-              >
-                <option value="" disabled>Select a category</option>
-                <option value="View All">View All</option>
-                <option value="Activities">Activities</option>
-                <option value="General">General</option>
-                <option value="Ideas">Ideas</option>
-                <option value="User Feedback">User Feedback</option>
-              </select>
-            </div>
-
-            <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-700">Image (optional)</label>
-              <input
-                type="file"
-                className="w-full border border-gray-300 p-2 rounded-lg"
-                onChange={(e) => handleImageUpload(e.target.files[0])}
-                disabled={loading} // Disable input if uploading
-              />
-              {loading && <p className="text-blue-500">Uploading image...</p>}
-            </div>
-
-            <div className="flex justify-end">
-              <button
-                type="button"
-                onClick={handleClose}
-                className="mr-4 px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-100"
-              >
-                Cancel
-              </button>
-              <button
-                type="submit"
-                className={`px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
-                disabled={loading} // Disable submit while image is uploading
-              >
-                {loading ? 'Uploading...' : 'Post'}
-              </button>
-            </div>
-          </form>
-        </div>
+    <form onSubmit={handleSubmit}>
+      <div className="mb-4">
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Title</label>
+        <input
+          type="text"
+          className="w-full border border-gray-300 dark:border-gray-700 p-2 rounded-lg bg-white dark:bg-gray-900 text-gray-800 dark:text-white"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          required
+        />
       </div>
-    </>
+
+      <div className="mb-4">
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Description</label>
+        <textarea
+          className="w-full border border-gray-300 dark:border-gray-700 p-2 rounded-lg bg-white dark:bg-gray-900 text-gray-800 dark:text-white"
+          rows="5"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          required
+        ></textarea>
+      </div>
+
+      <div className="mb-4">
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Category</label>
+        <select
+          className="w-full border border-gray-300 dark:border-gray-700 p-2 rounded-lg bg-white dark:bg-gray-900 text-gray-800 dark:text-white"
+          value={category}
+          onChange={(e) => setCategory(e.target.value)}
+          required
+        >
+          <option value="" disabled>Select a category</option>
+          <option value="View All">View All</option>
+          <option value="Activities">Activities</option>
+          <option value="General">General</option>
+          <option value="Ideas">Ideas</option>
+          <option value="User Feedback">User Feedback</option>
+        </select>
+      </div>
+
+      <div className="mb-4">
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Image (optional)</label>
+        <input
+          type="file"
+          className="w-full border border-gray-300 dark:border-gray-700 p-2 rounded-lg bg-white dark:bg-gray-900 text-gray-800 dark:text-white"
+          onChange={(e) => handleImageUpload(e.target.files[0])}
+          disabled={loading} // Disable input if uploading
+        />
+        {loading && <p className="text-blue-500">Uploading image...</p>}
+      </div>
+
+      <div className="flex justify-end">
+        <button
+          type="button"
+          onClick={handleClose}
+          className="mr-4 px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+        >
+          Cancel
+        </button>
+        <button
+          type="submit"
+          className={`px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
+          disabled={loading} // Disable submit while image is uploading
+        >
+          {loading ? 'Uploading...' : 'Post'}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+  </>
+  
   );
 };
 

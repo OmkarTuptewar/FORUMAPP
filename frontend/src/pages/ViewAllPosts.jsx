@@ -59,7 +59,7 @@ const ViewAllPosts = ({ newPost, searchQuery = '' }) => { // Set a default value
   }
 
   return (
-    <div className="overflow-y-auto">
+    <div className="overflow-y-auto h-screen">
       <ToastContainer />
       <PostList posts={filteredPosts} setPosts={setPosts} />
     </div>

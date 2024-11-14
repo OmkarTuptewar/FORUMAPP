@@ -12,10 +12,12 @@ import defaultProfile from '../assets/images/user-1.png';
 import { useUser } from '../context/UserContext';
 import CommentSection from './CommentSection';
 import EditPostModal from './EditPostModal';
+import { useDarkMode } from '../context/DarkModeContext';
 // import EditPostModal from './EditPostModal';
 
 const Post = ({ post, setPosts }) => {
   const { user } = useUser();
+  const {isDarkMode} = useDarkMode(); // Get dark mode state
   const currentUserId = user ? user._id : null;
 
   const [isCommentSectionVisible, setIsCommentSectionVisible] = useState(false);
@@ -242,160 +244,161 @@ const Post = ({ post, setPosts }) => {
   return (
     <>
   
-    <div className="bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow duration-300 ease-in-out relative">
-      {/* User Profile Section */}
-      
-      <div className="flex items-center justify-between mb-4">
-        <div className="flex items-center space-x-4">
-          {/* Profile Image */}
-          <img
-            src={post.author?.profilePicture || defaultProfile}
-            alt="Profile"
-            className="object-cover w-16 h-16 rounded-full shadow-md border-2 border-gray-200"
-          />
-          {/* Author Info */}
-          <div>
-            <h2 className="text-xl font-semibold text-gray-800">
-              {post.author?.name || 'Unknown Author'}
-            </h2>
-            <p className="text-sm text-gray-600">{post.author?.about || 'No details available'}</p>
-            <p className="text-xs text-gray-400">
-              {new Date(post.createdAt).toLocaleDateString()}
-            </p>  
-          </div>
-        </div>
-        {/* Options Button */}
-        <div className="relative">
-          <button
-            title="Open options"
-            type="button"
-            className="text-gray-500 hover:text-gray-700 transition duration-200"
-            onClick={() => setIsOptionsMenuVisible(!isOptionsMenuVisible)}
-          >
-            <FaEllipsisH className="w-6 h-6" />
-          </button>
-          {/* Options Menu */}
-          {isOptionsMenuVisible && isAuthor && (
-            <div className="absolute right-0 mt-2 w-40 bg-white border rounded-md shadow-lg z-10">
-              <button
-                onClick={() => {
-                 setIsEditModalOpen(true)
-                  setIsOptionsMenuVisible(false);
-                }}
-                className="w-full text-left px-4 py-2 hover:bg-gray-100"
-              >
-                Edit
-              </button>
-              <button
-                onClick={() => {
-                  handleDelete();
-                  setIsOptionsMenuVisible(false);
-                }}
-                className="w-full text-left px-4 py-2 hover:bg-gray-100 text-red-600"
-              >
-                Delete
-              </button>
-            </div>
-          )}
-        </div>
+  <div
+  className={`${
+    isDarkMode ? 'bg-gray-800 text-gray-100' : 'bg-white text-gray-800'
+  } rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow duration-300 ease-in-out relative`}
+>
+  {/* User Profile Section */}
+  <div className="flex items-center justify-between mb-4">
+    <div className="flex items-center space-x-4">
+      {/* Profile Image */}
+      <img
+        src={post.author?.profilePicture || defaultProfile}
+        alt="Profile"
+        className="object-cover w-16 h-16 rounded-full shadow-md border-2 border-gray-200"
+      />
+      {/* Author Info */}
+      <div>
+        <h2 className="text-xl font-semibold">
+          {post.author?.name || 'Unknown Author'}
+        </h2>
+        <p className="text-sm">{post.author?.about || 'No details available'}</p>
+        <p className="text-xs text-gray-400">
+          {new Date(post.createdAt).toLocaleDateString()}
+        </p>
       </div>
-      
-      {/* Post Content Section */}
-      <div className="flex flex-col lg:flex-row lg:space-x-6 mb-4">
-        {/* Post Image */}
-        {post.image && (
-          <div className="lg:w-1/3 mb-4 lg:mb-0">
-            <img
-              src={post.image}
-              alt={post.title}
-              className="object-cover w-full h-64 lg:h-48 rounded-lg"
-            />
-          </div>
-        )}
-        {/* Post Text */}
-        <div className="lg:w-2/3">
-          <h3 className="font-bold text-2xl text-gray-800 mb-2">{post.title}</h3>
-          <p className="text-gray-700">{post.content || 'No content available.'}</p>
-        </div>
-      </div>
-
-      {/* Interaction Buttons */}
-      <div className="flex justify-between items-center border-t pt-4 mt-4 space-x-4">
-        {/* Like Button */}
-        <button
-          type="button"
-          title="Like post"
-          className="flex items-center space-x-1 hover:text-blue-600 transition duration-200"
-          onClick={handleLike}
-        >
-          <img
-            src={likeIcon}
-            alt="Like"
-            className={`w-6 h-6 ${hasUserLiked ? 'text-blue-600' : 'text-gray-400'}`}
-          />
-          <span className="text-gray-600">{post.likes.length} Likes</span>
-        </button>
-
-        {/* Comment Button */}
-        <button
-          type="button"
-          title="Comment on post"
-          className="flex items-center space-x-1 hover:text-gray-700 transition duration-200"
-          onClick={() => setIsCommentSectionVisible(!isCommentSectionVisible)}
-        >
-          <img src={commentIcon} alt="Comment" className="w-6 h-6" />
-          <span className="text-gray-600">{post.comments.length} Comments</span>
-        </button>
-
-        {/* Share Button */}
-        <button
-          type="button"
-          title="Share post"
-          className="flex items-center space-x-1 hover:text-gray-700 transition duration-200"
-          onClick={handleShare}
-        >
-          <img src={shareIcon} alt="Share" className="w-6 h-6" />
-          <span className="text-gray-600">Share</span>
-        </button>
-
-        {/* Send Button */}
-        <button
-          type="button"
-          title="Send post"
-          className="flex items-center space-x-1 hover:text-gray-700 transition duration-200"
-        >
-          <img src={sendIcon} alt="Send" className="w-6 h-6" />
-          <span className="text-gray-600">Send</span>
-        </button>
-      </div>
-
-      {/* Comments Section */}
-      {isCommentSectionVisible && (
-        <CommentSection
-          postId={post._id}
-          initialComments={post.comments}
-          setComments={(newComments) => {
-            setPosts((prevPosts) =>
-              prevPosts.map((p) => (p._id === post._id ? { ...p, comments: newComments } : p))
-            );
-          }}
-        />
-      )}
-
-
-       {/* Edit Post Modal */}
-       {isEditModalOpen && (
-  <EditPostModal
-    initialData={post} // Pass the initial post data here
-    isOpen={isEditModalOpen}
-    onClose={() => setIsEditModalOpen(false)}
-    onSave={handleEdit}
-  />
-)}
-
-
-     
     </div>
+    {/* Options Button */}
+    <div className="relative">
+      <button
+        title="Open options"
+        type="button"
+        className="text-gray-500 hover:text-gray-700 transition duration-200"
+        onClick={() => setIsOptionsMenuVisible(!isOptionsMenuVisible)}
+      >
+        <FaEllipsisH className="w-6 h-6" />
+      </button>
+      {/* Options Menu */}
+      {isOptionsMenuVisible && isAuthor && (
+        <div
+          className={`absolute right-0 mt-2 w-40 ${
+            isDarkMode ? 'bg-gray-700 text-gray-100' : 'bg-white text-gray-900'
+          } border ${isDarkMode ? 'border-gray-600' : 'border-gray-300'} rounded-md shadow-lg z-10`}
+        >
+          <button
+            onClick={() => {
+              setIsEditModalOpen(true);
+              setIsOptionsMenuVisible(false);
+            }}
+            className={`w-full text-left px-4 py-2 ${
+              isDarkMode ? 'hover:bg-gray-600' : 'hover:bg-gray-100'
+            }`}
+          >
+            Edit
+          </button>
+          <button
+            onClick={() => {
+              handleDelete();
+              setIsOptionsMenuVisible(false);
+            }}
+            className={`w-full text-left px-4 py-2 ${
+              isDarkMode ? 'hover:bg-gray-600 text-red-400' : 'hover:bg-gray-100 text-red-600'
+            }`}
+          >
+            Delete
+          </button>
+        </div>
+      )}
+    </div>
+  </div>
+
+  {/* Post Content Section */}
+  <div className="flex flex-col lg:flex-row lg:space-x-6 mb-4">
+    {/* Post Image */}
+    {post.image && (
+      <div className="lg:w-1/3 mb-4 lg:mb-0">
+        <img
+          src={post.image}
+          alt={post.title}
+          className="object-cover w-full h-64 lg:h-48 rounded-lg"
+        />
+      </div>
+    )}
+    {/* Post Text */}
+    <div className="lg:w-2/3">
+      <h3 className="font-bold text-2xl mb-2">{post.title}</h3>
+      <p>{post.content || 'No content available.'}</p>
+    </div>
+  </div>
+
+  {/* Interaction Buttons */}
+  <div className="flex flex-wrap justify-between items-center border-t pt-4 mt-4 space-x-2">
+    <button
+      type="button"
+      title="Like post"
+      className="flex items-center space-x-1 hover:text-gray-400 transition duration-200"
+      onClick={handleLike}
+    >
+      <img
+        src={likeIcon}
+        alt="Like"
+        className={`w-6 h-6 ${hasUserLiked ? 'text-gray-600' : 'text-gray-400'}`}
+      />
+      <span>{post.likes.length} Likes</span>
+    </button>
+    <button
+      type="button"
+      title="Comment on post"
+      className="flex items-center space-x-1 hover:text-gray-400 transition duration-200"
+      onClick={() => setIsCommentSectionVisible(!isCommentSectionVisible)}
+    >
+      <img src={commentIcon} alt="Comment" className="w-6 h-6" />
+      <span>{post.comments.length} Comments</span>
+    </button>
+    <button
+      type="button"
+      title="Share post"
+      className="flex items-center space-x-1 hover:text-gray-400 transition duration-200"
+      onClick={handleShare}
+    >
+      <img src={shareIcon} alt="Share" className="w-6 h-6" />
+      <span>Share</span>
+    </button>
+    <button
+      type="button"
+      title="Send post"
+      className="flex items-center space-x-1 hover:text-gray-400 transition duration-200"
+    >
+      <img src={sendIcon} alt="Send" className="w-6 h-6" />
+      <span>Send</span>
+    </button>
+  </div>
+
+  {/* Comments Section */}
+  {isCommentSectionVisible && (
+    <CommentSection
+      postId={post._id}
+      initialComments={post.comments}
+      setComments={(newComments) => {
+        setPosts((prevPosts) =>
+          prevPosts.map((p) => (p._id === post._id ? { ...p, comments: newComments } : p))
+        );
+      }}
+    />
+  )}
+
+  {/* Edit Post Modal */}
+  {isEditModalOpen && (
+    <EditPostModal
+      initialData={post}
+      isOpen={isEditModalOpen}
+      onClose={() => setIsEditModalOpen(false)}
+      onSave={handleEdit}
+    />
+  )}
+</div>
+
     </>
   );
 };
