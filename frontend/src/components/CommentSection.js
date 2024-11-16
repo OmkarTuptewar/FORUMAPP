@@ -87,7 +87,7 @@ const CommentSection = ({ postId, initialComments, setComments }) => {
         value={newComment}
         onChange={(e) => setNewComment(e.target.value)}
         placeholder="Add a comment..."
-        className={`flex-grow border ${isDarkMode ? 'border-gray-600' : 'border-gray-300'} rounded-full p-3 mr-3 focus:outline-none focus:ring-2 focus:ring-blue-500`}
+        className={`flex-grow border ${isDarkMode ? 'border-gray-600' : 'border-gray-300'} rounded-full text-black p-3 mr-3 focus:outline-none focus:ring-2 focus:ring-blue-500`}
       />
       <button
         type="submit"
