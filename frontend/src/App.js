@@ -1,19 +1,27 @@
-import { useDarkMode } from './context/DarkModeContext'; // Import useDarkMode
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom"; 
+import { useDarkMode } from "./context/DarkModeContext";
+import { useUser } from "./context/UserContext";
 import Header from "./components/Header";
 import PostForm from "./components/PostForm";
 import ViewAllPosts from "./pages/ViewAllPosts";
 import backimage from "./assets/images/banner-bg.png";
-import { useUser } from "./context/UserContext"; 
 
 const App = () => {
-  const { user } = useUser(); 
-  const { isDarkMode } = useDarkMode(); // Get dark mode status from context
+  const { user } = useUser();
+  const { isDarkMode } = useDarkMode();
   const [newPost, setNewPost] = useState(false);
-  const [searchQuery, setSearchQuery] = useState(""); // Add search query state
+  const [searchQuery, setSearchQuery] = useState("");
+  const navigate = useNavigate(); 
+
+  useEffect(() => {
+    if (!user) {
+      navigate("/"); 
+    }
+  }, [user, navigate]); 
 
   const handleNewPostSubmission = () => {
-    setNewPost((prevState) => !prevState); 
+    setNewPost((prevState) => !prevState);
   };
 
   return (
@@ -21,13 +29,13 @@ const App = () => {
       {user ? (
         <div className="flex">
           <div className="flex flex-col flex-1 p-4">
-            <Header onSearch={setSearchQuery} /> {/* Pass setSearchQuery to Header */}
+            <Header onSearch={setSearchQuery} />
             <div className="relative z-10">
-              <img src={backimage} alt="background image" className="w-full h-auto" />
-              <PostForm onSubmit={handleNewPostSubmission} /> 
+              <img src={backimage} alt="background" className="w-full h-auto" />
+              <PostForm onSubmit={handleNewPostSubmission} />
             </div>
             <div className="mt-20">
-              <ViewAllPosts newPost={newPost} searchQuery={searchQuery} /> {/* Pass searchQuery */}
+              <ViewAllPosts newPost={newPost} searchQuery={searchQuery} />
             </div>
           </div>
         </div>

@@ -235,14 +235,15 @@ const ViewProfilePage = () => {
           </div>
 
           {/* Update Button */}
-          <div className="flex justify-center">
-            <button
-              type="submit"
-              className="px-4 py-2 bg-blue-600 text-white font-medium rounded-md shadow hover:bg-blue-700 transition-transform transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-400"
-            >
-              Update Profile
-            </button>
-          </div>
+          <div className="flex justify-center mt-6">
+  <button
+    type="submit"
+    className="px-6 py-3 bg-gradient-to-r from-blue-500 to-blue-700 text-white font-semibold rounded-lg shadow-md hover:from-blue-600 hover:to-blue-800 transition-transform transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-blue-300"
+  >
+    Update Profile
+  </button>
+</div>
+
         </form>
       </div>
     </div>

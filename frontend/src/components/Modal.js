@@ -187,11 +187,12 @@ const Modal = ({ isOpen, onClose,onSubmit}) => {
           required
         >
           <option value="" disabled>Select a category</option>
-          <option value="View All">View All</option>
-          <option value="Activities">Activities</option>
-          <option value="General">General</option>
-          <option value="Ideas">Ideas</option>
-          <option value="User Feedback">User Feedback</option>
+          <option value="Student">Student</option>
+          <option value="Tourist">Tourist</option>
+          <option value="Travel">Travel</option>
+          <option value="Visa">Visa</option>
+          <option value="Weekly-News">Weekly-News</option>
+          
         </select>
       </div>
 

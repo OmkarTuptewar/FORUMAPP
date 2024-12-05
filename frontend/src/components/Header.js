@@ -87,45 +87,58 @@ const Header = ({ onSearch }) => {
 
             {isDropdownOpen && (
   <div
-    className={`absolute right-0 mt-[38vh] w-56 rounded-xl shadow-lg ${
-      isDarkMode ? 'bg-gray-800 text-white' : 'bg-white text-gray-800'
-    } transition-all duration-200 ease-in-out transform scale-95 z-50`}
+    className={`absolute right-4 mt-[44vh] w-56 rounded-xl shadow-lg border ${
+      isDarkMode
+        ? 'bg-gray-900 text-gray-100 border-gray-800'
+        : 'bg-white text-gray-900 border-gray-200'
+    } z-50 transition-all duration-300 ease-in-out`}
   >
-    <div className="px-4 py-3 border-b border-gray-200">
-      <div className="font-semibold text-base truncate">{user.username}</div>
-      <div className="text-xs truncate">{user.email}</div>
+    {/* Header Section */}
+    <div
+      className={`px-6 py-4 rounded-t-xl ${
+        isDarkMode
+          ? 'bg-gradient-to-r from-gray-800 to-gray-700'
+          : 'bg-gradient-to-r from-blue-500 to-blue-400 text-white'
+      }`}
+    >
+      <div className="font-bold text-lg truncate">{user.username}</div>
+      <div className="text-sm opacity-75 truncate">{user.email}</div>
     </div>
-    <ul className="py-2">
+
+    {/* Action Buttons */}
+    <ul className="py-3">
       <li>
         <button
           onClick={() => navigate('/profile')}
-          className="flex items-center w-full text-left px-4 py-2 hover:bg-blue-100 dark:hover:bg-blue-600 rounded-lg transition duration-200"
+          className="flex items-center w-full px-6 py-3 text-sm font-medium hover:bg-gray-100 dark:hover:bg-gray-800 rounded transition-all duration-200"
         >
-          <UserIcon className="w-5 h-5 mr-3" />
-          <span>View Profile</span>
+          <UserIcon className="w-5 h-5 mr-4 text-blue-500" />
+          View Profile
         </button>
       </li>
       <li>
         <button
           onClick={toggleDarkMode}
-          className="flex items-center w-full text-left px-4 py-2 hover:bg-blue-100 dark:hover:bg-blue-600 rounded-lg transition duration-200"
+          className="flex items-center w-full px-6 py-3 text-sm font-medium hover:bg-gray-100 dark:hover:bg-gray-800 rounded transition-all duration-200"
         >
           {isDarkMode ? (
-            <SunIcon className="w-5 h-5 mr-3" />
+            <SunIcon className="w-5 h-5 mr-4 text-yellow-400" />
           ) : (
-            <MoonIcon className="w-5 h-5 mr-3" />
+            <MoonIcon className="w-5 h-5 mr-4 text-gray-500" />
           )}
-          <span>{isDarkMode ? 'Light Mode' : 'Dark Mode'}</span>
+          {isDarkMode ? 'Light Mode' : 'Dark Mode'}
         </button>
       </li>
     </ul>
-    <div className="py-2 border-t border-gray-200">
+
+    {/* Logout Section */}
+    <div className="py-3 border-t border-gray-200 dark:border-gray-700">
       <button
         onClick={handleLogout}
-        className="flex items-center w-full text-left text-sm text-red-600 hover:bg-red-100 dark:hover:bg-red-600 dark:text-red-300 transition duration-200 px-4 py-2 rounded-lg"
+        className="flex items-center w-full px-6 py-3 text-sm font-medium text-red-500 hover:bg-red-50 dark:hover:bg-red-700 rounded transition-all duration-200"
       >
-        <PowerIcon className="w-5 h-5 mr-3" />
-        <span>Sign Out</span>
+        <PowerIcon className="w-5 h-5 mr-4" />
+        Sign Out
       </button>
     </div>
   </div>

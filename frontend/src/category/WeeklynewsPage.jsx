@@ -4,13 +4,13 @@ import PostList from '../components/PostList';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const ViewAllPosts = ({ newPost, searchQuery = '' }) => { // Set a default value for searchQuery
+const WeeklynewsPage = () => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchPosts = async () => {
+    const fetchWeeklyNewsPosts = async () => {
       try {
         const token = localStorage.getItem('token');
         if (!token) {
@@ -18,37 +18,30 @@ const ViewAllPosts = ({ newPost, searchQuery = '' }) => { // Set a default value
           setLoading(false);
           return;
         }
+
         const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/posts`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
-        setPosts(response.data);
+
+        // Filter posts where the category is "Weekly News"
+        const weeklyNewsPosts = response.data.filter(post => post.category === 'Weekly-News');
+        setPosts(weeklyNewsPosts);
         setLoading(false);
       } catch (err) {
-        console.error('Error fetching posts:', err);
+        console.error('Error fetching weekly news posts:', err);
         setError('Failed to fetch posts. Please try again later.');
         setLoading(false);
       }
     };
 
-    fetchPosts();
-  }, [newPost]);
-
-  // Split search query into words for "OR" filtering
-  const searchWords = searchQuery.trim().toLowerCase().split(/\s+/);
-
-  const filteredPosts = posts.filter(post => 
-    searchWords.some(word => 
-      (post.author?.name?.toLowerCase().includes(word) || '') ||
-      (post.title?.toLowerCase().includes(word) || '') ||
-      (post.content?.toLowerCase().includes(word) || '')
-    )
-  );
+    fetchWeeklyNewsPosts();
+  }, []);
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center ">
+      <div className="flex items-center justify-center h-screen">
         <p className="text-xl">Loading...</p>
       </div>
     );
@@ -56,18 +49,18 @@ const ViewAllPosts = ({ newPost, searchQuery = '' }) => { // Set a default value
 
   if (error) {
     return (
-      <div className="flex items-center justify-center ">
+      <div className="flex items-center justify-center h-screen">
         <p className="text-xl text-red-500">{error}</p>
       </div>
     );
   }
 
   return (
-    <div className="overflow-y-auto h-[62vh]">
+    <div className="overflow-y-auto h-screen">
       <ToastContainer />
-      <PostList posts={filteredPosts} setPosts={setPosts} />
+      <PostList posts={posts} setPosts={setPosts} />
     </div>
   );
 };
 
-export default ViewAllPosts;
+export default WeeklynewsPage;
