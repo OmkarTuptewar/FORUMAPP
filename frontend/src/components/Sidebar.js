@@ -1,5 +1,5 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { NavLink } from "react-router-dom";
 import {
   FiHome,
   FiUser,
@@ -8,141 +8,148 @@ import {
   FiMapPin,
   FiClipboard,
   FiTrendingUp,
+  FiMenu,
+  FiX,
+  FiUsers,
+  FiUserPlus,
+  FiMessageCircle,
+  FiShare2,
 } from "react-icons/fi";
-import { useDarkMode } from "../context/DarkModeContext";
 import { FaPlane } from "react-icons/fa";
+import { useDarkMode } from "../context/DarkModeContext";
+
 const Sidebar = () => {
   const { isDarkMode } = useDarkMode();
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
+
+  const navLinkClasses = (isDark) =>
+    `flex items-center px-4 py-3 rounded-lg transition-all transform hover:scale-105 ${
+      isDark
+        ? "hover:bg-gray-800 hover:text-gray-200"
+        : "hover:bg-gray-100 hover:text-gray-800"
+    }`;
 
   return (
-    <div className="flex">
-      {/* Sidebar container */}
-      <div
-        className={`hidden md:flex flex-col w-64 shadow-2xl h-screen transition-colors duration-200 ${
-          isDarkMode ? "bg-gray-900 text-white" : "bg-gray-100 text-gray-800"
+    <div className="relative flex h-screen">
+      {/* Sidebar Toggle Button */}
+      <button
+        className={`absolute top-4 left-4 z-50 md:hidden ${
+          isDarkMode ? "text-white" : "text-gray-800"
         }`}
+        onClick={toggleSidebar}
+        aria-label="Toggle Sidebar"
+      >
+        {isSidebarOpen ? <FiX size={24} /> : <FiMenu size={24} />}
+      </button>
+
+      {/* Sidebar */}
+      <div
+        className={`fixed top-0 left-0 w-60 h-full z-40 transform transition-all duration-300 ease-in-out ${
+          isSidebarOpen ? "translate-x-0" : "-translate-x-full"
+        } md:translate-x-0 md:static flex flex-col ${
+          isDarkMode ? "bg-gray-900 text-gray-100" : "bg-white text-gray-900"
+        } shadow-lg`}
       >
         {/* Header */}
         <div
-          className={`flex items-center justify-center h-20 ${
-            isDarkMode ? "bg-gray-800" : "bg-gray-200"
-          }`}
+          className={`flex items-center justify-center h-16 text-2xl font-bold tracking-wider ${
+            isDarkMode ? "bg-gray-800" : "bg-gray-100"
+          } border-1 `}
         >
-          <span className="text-3xl font-extrabold tracking-wide">FORUM</span>
+          FORUM
         </div>
 
-        {/* Navigation Links */}
-        <div className="flex flex-col flex-1 overflow-y-auto">
-          <nav className="flex-1 px-4 py-6 space-y-6">
-            {/* Links Section */}
-            <div className="space-y-3">
-              <Link
-                to="/home"
-                className={`flex items-center px-4 py-2 rounded-lg transition-transform transform hover:scale-105 ${
-                  isDarkMode
-                    ? "bg-gray-800 hover:bg-gray-700 text-white"
-                    : "bg-white hover:bg-gray-200 text-gray-800"
-                }`}
-              >
-                <FiHome className="h-6 w-6 mr-3" />
-                <span className="font-medium text-lg">Home</span>
-              </Link>
-
-              <Link
-                to="/viewmyposts"
-                className={`flex items-center px-4 py-2 rounded-lg transition-transform transform hover:scale-105 ${
-                  isDarkMode
-                    ? "bg-gray-800 hover:bg-gray-700 text-white"
-                    : "bg-white hover:bg-gray-200 text-gray-800"
-                }`}
-              >
-                <FiUser className="h-6 w-6 mr-3" />
-                <span className="font-medium text-lg">My Posts</span>
-              </Link>
-
-              <Link
-                to="/ViewAll"
-                className={`flex items-center px-4 py-2 rounded-lg transition-transform transform hover:scale-105 ${
-                  isDarkMode
-                    ? "bg-gray-800 hover:bg-gray-700 text-white"
-                    : "bg-white hover:bg-gray-200 text-gray-800"
-                }`}
-              >
-                <FiGrid className="h-6 w-6 mr-3" />
-                <span className="font-medium text-lg">View All</span>
-              </Link>
-            </div>
-
-            {/* Categories Section */}
-            <div>
-  <h2 className="text-2xl font-semibold mb-4 text-center border-b-2 pb-2">
-    Explore Categories
-  </h2>
-  <div className="space-y-4">
-    <Link
-      to="/studentpage"
-      className={`flex items-center px-6 py-4 rounded-lg shadow-md transition-transform transform hover:scale-105 ${
-        isDarkMode
-          ? "bg-gradient-to-r from-gray-800 to-gray-700 hover:from-gray-700 hover:to-gray-600 text-white"
-          : "bg-gradient-to-r from-blue-200 to-blue-300 hover:from-blue-300 hover:to-blue-400 text-gray-800"
-      }`}
-    >
-      <FiBookOpen className="h-6 w-6 mr-4 bg-white rounded-full p-1 shadow-lg text-blue-500" />
-      <span className="text-lg font-semibold">Student</span>
-    </Link>
-
-    <Link
-      to="/touristpage"
-      className={`flex items-center px-6 py-4 rounded-lg shadow-md transition-transform transform hover:scale-105 ${
-        isDarkMode
-          ? "bg-gradient-to-r from-gray-800 to-gray-700 hover:from-gray-700 hover:to-gray-600 text-white"
-          : "bg-gradient-to-r from-green-200 to-green-300 hover:from-green-300 hover:to-green-400 text-gray-800"
-      }`}
-    >
-      <FiMapPin className="h-6 w-6 mr-4 bg-white rounded-full p-1 shadow-lg text-green-500" />
-      <span className="text-lg font-semibold">Tourist</span>
-    </Link>
-
-    <Link
-      to="/travelpage"
-      className={`flex items-center px-6 py-4 rounded-lg shadow-md transition-transform transform hover:scale-105 ${
-        isDarkMode
-          ? "bg-gradient-to-r from-gray-800 to-gray-700 hover:from-gray-700 hover:to-gray-600 text-white"
-          : "bg-gradient-to-r from-purple-200 to-purple-300 hover:from-purple-300 hover:to-purple-400 text-gray-800"
-      }`}
-    >
-      <FaPlane className="h-6 w-6 mr-4 bg-white rounded-full p-1 shadow-lg text-purple-500" />
-      <span className="text-lg font-semibold">Travel</span>
-    </Link>
-
-    <Link
-      to="/visapage"
-      className={`flex items-center px-6 py-4 rounded-lg shadow-md transition-transform transform hover:scale-105 ${
-        isDarkMode
-          ? "bg-gradient-to-r from-gray-800 to-gray-700 hover:from-gray-700 hover:to-gray-600 text-white"
-          : "bg-gradient-to-r from-yellow-200 to-yellow-300 hover:from-yellow-300 hover:to-yellow-400 text-gray-800"
-      }`}
-    >
-      <FiClipboard className="h-6 w-6 mr-4 bg-white rounded-full p-1 shadow-lg text-yellow-500" />
-      <span className="text-lg font-semibold">Visa</span>
-    </Link>
-
-    <Link
-      to="/weeklynewspage"
-      className={`flex items-center px-6 py-4 rounded-lg shadow-md transition-transform transform hover:scale-105 ${
-        isDarkMode
-          ? "bg-gradient-to-r from-gray-800 to-gray-700 hover:from-gray-700 hover:to-gray-600 text-white"
-          : "bg-gradient-to-r from-red-200 to-red-300 hover:from-red-300 hover:to-red-400 text-gray-800"
-      }`}
-    >
-      <FiTrendingUp className="h-6 w-6 mr-4 bg-white rounded-full p-1 shadow-lg text-red-500" />
-      <span className="text-lg font-semibold">Weekly News</span>
-    </Link>
+        {/* Links */}
+        <nav className="flex-1 px-4 py-6 space-y-6 overflow-y-auto">
+  <div className="space-y-2 text-sm">
+    {[
+      { to: "/home", icon: FiHome, label: "Home" },
+      { to: "/viewmyposts", icon: FiUser, label: "My Posts" },
+      { to: "/ViewAll", icon: FiGrid, label: "View All" },
+      { to: "/joingroups", icon: FiUsers, label: "Explore Groups", isJoinGroups: true },  // Added isJoinGroups flag
+    ].map(({ to, icon: Icon, label, isJoinGroups }) => (
+      <NavLink  
+        key={to}
+        to={to}
+        className={({ isActive }) =>
+          `${navLinkClasses(isDarkMode)} ${
+            isActive
+              ? isDarkMode
+                ? "bg-gray-800 text-gray-200"
+                : "bg-gray-200 text-gray-900"
+              : ""
+          } ${isJoinGroups ? 'bg-blue-600 text-white text-sm hover:bg-blue-700 hover:scale-105 hover:shadow-lg transition-all ease-in-out duration-300' : ''}`  // Solid color for Join Groups button
+        }
+        aria-current="page"
+      >
+        <Icon className="w-5 h-5 mr-3" />
+        <span className="font-medium">{label}</span>
+      </NavLink>
+    ))}
   </div>
-</div>
 
-          </nav>
-        </div>
+
+
+
+          {/* Explore Categories */}
+          <div>
+            <h2 className="text-sm font-semibold mb-4 text-center border-b-2 pb-2">
+              Explore Categories
+            </h2>
+            <div className="space-y-3 text-sm">
+              {[
+                {
+                  to: "/studentpage",
+                  icon: FiBookOpen,
+                  label: "Student",
+                  color: "text-blue-500",
+                },
+                {
+                  to: "/touristpage",
+                  icon: FiMapPin,
+                  label: "Tourist",
+                  color: "text-green-500",
+                },
+                {
+                  to: "/travelpage",
+                  icon: FaPlane,
+                  label: "Travel",
+                  color: "text-purple-500",
+                },
+                {
+                  to: "/visapage",
+                  icon: FiClipboard,
+                  label: "Visa",
+                  color: "text-yellow-500",
+                },
+                {
+                  to: "/weeklynewspage",
+                  icon: FiTrendingUp,
+                  label: "Weekly News",
+                  color: "text-red-500",
+                },
+              ].map(({ to, icon: Icon, label, color }) => (
+                <NavLink
+                  key={to}
+                  to={to}
+                  className={`flex items-center px-6 py-3 rounded-lg shadow-md transition-transform transform hover:scale-105 ${
+                    isDarkMode
+                      ? "bg-gray-800 text-gray-200"
+                      : "bg-gray-100 text-gray-900"
+                  }`}
+                  aria-current="page"
+                >
+                  <Icon className={`w-6 h-6 mr-3 ${color}`} />
+                  <span>{label}</span>
+                </NavLink>
+              ))}
+            </div>
+          </div>
+        </nav>
       </div>
     </div>
   );

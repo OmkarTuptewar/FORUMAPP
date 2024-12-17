@@ -17,7 +17,8 @@ app.use(cors());
 app.use('/api/questions', require('./routes/questionRoutes'));
 app.use('/api/posts', require('./routes/postRoutes'));
 app.use('/api/auth', require('./routes/authRoute')); // Added authentication routes
-
+app.use('/api/group', require('./routes/groupRoutes'));
+app.use('/api/notify', require('./routes/notificationRoutes'));
 // Connect to MongoDB
 connectDB();
 

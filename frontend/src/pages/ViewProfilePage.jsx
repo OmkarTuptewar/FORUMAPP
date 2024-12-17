@@ -4,6 +4,9 @@ import { useNavigate } from "react-router-dom"; // For navigation
 import { toast, ToastContainer } from "react-toastify";
 import axios from "axios"; // Import axios for API requests
 import { useDarkMode } from '../context/DarkModeContext'; 
+
+import loader from '../assets/gif/loader.gif'
+import Loader from "../components/Loadermodal";
 const ViewProfilePage = () => {
   const { isDarkMode } = useDarkMode(); // Get dark mode status
   const { user, updateUser } = useUser(); // Get user and updateUser from context
@@ -75,12 +78,12 @@ const ViewProfilePage = () => {
     if (pics && (pics.type === "image/jpeg" || pics.type === "image/png")) {
       const data = new FormData();
       data.append("file", pics);
-      data.append("upload_preset", "GEN_Z_CONNECT");
-      data.append("cloud_name", "dbeirlo9t");
-
+      data.append("upload_preset", process.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET);
+      data.append("cloud_name", process.env.REACT_APP_CLOUDINARY_CLOUD_NAME);
+  
       try {
         const response = await axios.post(
-          "https://api.cloudinary.com/v1_1/dbeirlo9t/image/upload",
+          process.env.REACT_APP_CLOUDINARY_API_URL,
           data
         );
 
@@ -114,7 +117,7 @@ const ViewProfilePage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("http://localhost:5000/api/auth/update", {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/auth/update`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -147,8 +150,22 @@ const ViewProfilePage = () => {
   };
 
   if (isLoading) {
-    return <div className="text-center">Loading...</div>; // Loading state
+    return (
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh", // Full viewport height
+          backgroundColor: "#f9f9f9", // Optional background color
+        }}
+      >
+       <Loader/>
+      </div>
+    );
   }
+  
+  
 
   return (
 <div className={`flex flex-col items-center justify-center min-h-screen px-4 ${isDarkMode ? 'bg-gray-900' : 'bg-gray-100'}`}>

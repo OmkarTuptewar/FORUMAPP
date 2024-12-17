@@ -26,15 +26,16 @@ const EditPostModal = ({ isOpen, onClose, onSave, initialData }) => {
     setIsLoading(true);
     if (pics && (pics.type === 'image/jpeg' || pics.type === 'image/png')) {
       const data = new FormData();
-      data.append('file', pics);
-      data.append('upload_preset', 'GEN_Z_CONNECT');
-      data.append('cloud_name', 'dbeirlo9t');
-
+      data.append("file", pics);
+      data.append("upload_preset", process.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET);
+      data.append("cloud_name", process.env.REACT_APP_CLOUDINARY_CLOUD_NAME);
+  
       try {
         const response = await axios.post(
-          'https://api.cloudinary.com/v1_1/dbeirlo9t/image/upload',
+          process.env.REACT_APP_CLOUDINARY_API_URL,
           data
         );
+        
         setImage(response.data.url.toString()); // Set image URL in state
         toast.success('Image uploaded successfully!', { autoClose: 5000 });
       } catch (err) {
@@ -90,11 +91,11 @@ const EditPostModal = ({ isOpen, onClose, onSave, initialData }) => {
             required
           >
             <option value="" disabled>Select a category</option>
-            <option value="View All">View All</option>
-            <option value="Activities">Activities</option>
-            <option value="General">General</option>
-            <option value="Ideas">Ideas</option>
-            <option value="User Feedback">User Feedback</option>
+           <option value="Student">Student</option>
+          <option value="Tourist">Tourist</option>
+          <option value="Travel">Travel</option>
+          <option value="Visa">Visa</option>
+          <option value="Weekly News">Weekly News</option>
           </select>
         </div>
       </div>

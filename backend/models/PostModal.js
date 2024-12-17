@@ -6,7 +6,8 @@ const postSchema = new mongoose.Schema(
 		title: { type: String, required: true }, // Title field
 		content: { type: String },
 		image: { type: String },
-		category: { type: String, required: true }, // Free text field for category
+		category: { type: String }, // Free text field for category
+		group: { type: mongoose.Schema.Types.ObjectId, ref: "Group" }, // Reference to Group
 		likes: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
 		comments: [
 			{
@@ -15,6 +16,15 @@ const postSchema = new mongoose.Schema(
 				createdAt: { type: Date, default: Date.now },
 			},
 		],
+		reports: [
+			{
+				reason: { type: String, required: true },
+				reportedBy: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+				createdAt: { type: Date, default: Date.now },
+			},
+		],
+		
+		tags: [{ type: String }], // Array of strings for tags
 	},
 	{ timestamps: true }
 );

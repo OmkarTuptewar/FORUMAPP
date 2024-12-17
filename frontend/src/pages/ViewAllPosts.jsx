@@ -3,7 +3,8 @@ import axios from 'axios';
 import PostList from '../components/PostList';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import Loader from '../components/Loadermodal';
+import '../index.css'
 const ViewAllPosts = ({ newPost, searchQuery = '' }) => { // Set a default value for searchQuery
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -12,17 +13,8 @@ const ViewAllPosts = ({ newPost, searchQuery = '' }) => { // Set a default value
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const token = localStorage.getItem('token');
-        if (!token) {
-          setError('No authentication token found. Please log in.');
-          setLoading(false);
-          return;
-        }
-        const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/posts`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        // Remove the authentication token check
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/posts`);
         setPosts(response.data);
         setLoading(false);
       } catch (err) {
@@ -48,8 +40,16 @@ const ViewAllPosts = ({ newPost, searchQuery = '' }) => { // Set a default value
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center ">
-        <p className="text-xl">Loading...</p>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh", // Full viewport height
+          backgroundColor: "#f9f9f9", // Optional background color
+        }}
+      >
+        <Loader />
       </div>
     );
   }
@@ -63,7 +63,9 @@ const ViewAllPosts = ({ newPost, searchQuery = '' }) => { // Set a default value
   }
 
   return (
-    <div className="overflow-y-auto h-[62vh]">
+    <div className="overflow-y-auto h-[68vh] custom-scrollbar">
+  
+      
       <ToastContainer />
       <PostList posts={filteredPosts} setPosts={setPosts} />
     </div>

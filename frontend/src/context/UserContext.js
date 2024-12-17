@@ -24,6 +24,7 @@ export const UserProvider = ({ children }) => {
   const logout = () => {
     // Clear the user data from localStorage
     localStorage.removeItem("userInfo");
+    localStorage.removeItem("token");
 
     // Set user state to null
     setUser(null);

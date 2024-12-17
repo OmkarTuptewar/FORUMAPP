@@ -9,13 +9,15 @@ import shareIcon from '../assets/images/share.png';
 import sendIcon from '../assets/images/send.png';
 import defaultProfile from '../assets/images/user-1.png';
 import { useUser } from '../context/UserContext';
-import CommentSection from './CommentSection';
-import EditPostModal from './EditPostModal';
+
+
 import { useDarkMode } from '../context/DarkModeContext';
+import EditPostModal2 from './EditPostModal2';
+import CommentSection from '../components/CommentSection';
 // import EditPostModal from './EditPostModal';
 
 
-const Post = ({ post, setPosts }) => {
+const Post2 = ({ post, setPosts }) => {
   const { user } = useUser();
   const {isDarkMode} = useDarkMode(); // Get dark mode state
   const currentUserId = user ? user._id : null;
@@ -460,7 +462,7 @@ const Post = ({ post, setPosts }) => {
 
   {/* Edit Post Modal */}
   {isEditModalOpen && (
-    <EditPostModal
+    <EditPostModal2
       initialData={post}
       isOpen={isEditModalOpen}
       onClose={() => setIsEditModalOpen(false)}
@@ -509,4 +511,4 @@ const Post = ({ post, setPosts }) => {
   );
 };
 
-export default Post;  
+export default Post2;  

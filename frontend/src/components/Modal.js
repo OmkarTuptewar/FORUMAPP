@@ -19,18 +19,19 @@ const Modal = ({ isOpen, onClose,onSubmit}) => {
       setLoading(true); // Start loading
       if (pics.type === 'image/jpeg' || pics.type === 'image/png') {
         const data = new FormData();
-        data.append('file', pics);
-        data.append('upload_preset', 'GEN_Z_CONNECT');
-        data.append('cloud_name', 'dbeirlo9t');
+        data.append("file", pics);
+        data.append("upload_preset", process.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET);
+        data.append("cloud_name", process.env.REACT_APP_CLOUDINARY_CLOUD_NAME);
+    
         try {
           const response = await axios.post(
-            'https://api.cloudinary.com/v1_1/dbeirlo9t/image/upload',
+            process.env.REACT_APP_CLOUDINARY_API_URL,
             data
           );
           setPic(response.data.url.toString()); // Store image URL
           setLoading(false); // End loading
           toast.success('Image uploaded successfully!', {
-            position: 'bottom-left',
+            position: 'bottom-right',
             autoClose: 5000,
             hideProgressBar: false,
             closeOnClick: true,
@@ -41,7 +42,7 @@ const Modal = ({ isOpen, onClose,onSubmit}) => {
           console.error(err);
           setLoading(false);
           toast.error('Image upload failed. Please try again.', {
-            position: 'bottom-left',
+            position: 'bottom-right',
             autoClose: 5000,
             hideProgressBar: false,
             closeOnClick: true,
@@ -52,7 +53,7 @@ const Modal = ({ isOpen, onClose,onSubmit}) => {
       } else {
         setLoading(false);
         toast.warning('Please select a valid image (JPEG or PNG).', {
-          position: 'bottom-left',
+          position: 'bottom-right',
           autoClose: 5000,
           hideProgressBar: false,
           closeOnClick: true,
@@ -71,7 +72,7 @@ const Modal = ({ isOpen, onClose,onSubmit}) => {
 
     if (loading) {
       toast.info('Please wait for the image to finish uploading.', {
-        position: 'bottom-left',
+        position: 'bottom-right',
         autoClose: 3000,
       });
       return; // Prevent submission if image is still uploading
@@ -81,7 +82,7 @@ const Modal = ({ isOpen, onClose,onSubmit}) => {
     if (!token) {
       setErrorMessage('No authentication token found. Please log in again.');
       toast.error('Authentication token missing. Please log in again.', {
-        position: 'bottom-left',
+        position: 'bottom-right',
         autoClose: 5000,
       });
       return;
@@ -115,18 +116,18 @@ const Modal = ({ isOpen, onClose,onSubmit}) => {
       
              
       toast.success('Post created successfully!', {
-        position: 'bottom-left',
+        position: 'bottom-right',
         autoClose: 5000,
       });
       setTimeout(() => {
         onSubmit(); 
         onClose();
-      }, 2000);
+      }, 1000);
     } catch (error) {
       console.error('Error saving post:', error);
       setErrorMessage(error.message || 'Failed to create post');
       toast.error(error.message || 'Failed to create post', {
-        position: 'bottom-left',
+        position: 'bottom-right',
         autoClose: 5000,
       });
     }

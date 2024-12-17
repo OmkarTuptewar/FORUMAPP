@@ -1,6 +1,32 @@
-const Post = require("../models/PostModal"); // Assuming Post model is in models/Post
-const cloudinary = require("../config/cloudinary.js"); // Cloudinary package
+const Post = require("../models/PostModal"); 
+const cloudinary = require("../config/cloudinary.js"); 
+const { addNotification } = require('./notificationController.js');
 
+const reportPost = async (req, res) => {
+	try {
+		const { postId } = req.params;
+		const { reason } = req.body;
+		const userId = req.user._id;
+
+		if (!reason) {
+			return res.status(400).json({ message: "Reason for reporting is required." });
+		}
+
+		const post = await Post.findById(postId);
+		if (!post) {
+			return res.status(404).json({ message: "Post not found." });
+		}
+
+		// Add report details to the post
+		post.reports.push({ reason, reportedBy: userId });
+		await post.save();
+
+		res.status(200).json({ message: "Post reported successfully." });
+	} catch (error) {
+		console.error(error);
+		res.status(500).json({ message: "Internal server error." });
+	}
+};
 // Controller to get all feed posts
 const getFeedPosts = async (req, res) => {
   try {
@@ -11,7 +37,7 @@ const getFeedPosts = async (req, res) => {
       })
       .populate({
         path: "comments.user", // Populate the user field in comments
-        select: "username profilePicture", // Select username and profilePicture
+        select: " name username profilePicture", // Select username and profilePicture
       })
       .sort({ createdAt: -1 });
 
@@ -49,6 +75,7 @@ const createPost = async (req, res) => {
       content,
       image, // Image URL from frontend
       category,
+      
     });
 
     // Save the new post to the database
@@ -109,6 +136,7 @@ const getPostById = async (req, res) => {
 const createComment = async (req, res) => {
   const postId = req.params.id;
   const { content } = req.body;
+  const userId = req.user._id; // Current user ID
 
   try {
     const post = await Post.findById(postId);
@@ -125,6 +153,15 @@ const createComment = async (req, res) => {
     post.comments.push(comment);
     await post.save();
 
+    if (post.author._id.toString() !== userId) {
+      await addNotification(
+        post.author._id,
+        "comment",
+        `${req.user.username} commented on your post "${post.title}"`,
+        post._id
+      );
+    }
+
     // Populate the user details in the response
     const updatedPost = await Post.findById(postId).populate("comments.user");
 
@@ -140,14 +177,20 @@ const createComment = async (req, res) => {
   }
 };
 
+
+
+
+
 // Controller to like a post
 const likePost = async (req, res) => {
   const postId = req.params.id;
+  const userId = req.user._id; // Current user ID
+
 
   try {
     const post = await Post.findById(postId).populate("author").populate({
       path: "comments.user", // Populate the user field in comments
-      select: "username profilePicture", // Select username and profilePicture
+      select: "name username profilePicture", // Select username and profilePicture
     }); // Populate author if needed
     if (!post) {
       return res.status(404).json({ message: "Post not found" });
@@ -165,6 +208,18 @@ const likePost = async (req, res) => {
     } else {
       // Like the post
       post.likes.push(req.user._id);
+
+ // Notify the post's author if the liker is not the author
+ if (post.author._id.toString() !== userId) {
+  await addNotification(
+    post.author._id,
+    "like",
+    `${req.user.username} liked your post "${post.title}"`,
+    post._id
+  );
+}
+
+
     }
 
     await post.save();
@@ -178,6 +233,10 @@ const likePost = async (req, res) => {
       .json({ message: "Failed to like post", error: error.message });
   }
 };
+
+
+
+
 
 const editPost = async (req, res) => {
   const postId = req.params.id;
@@ -264,4 +323,5 @@ module.exports = {
   createComment,
   getPostsByUserId,
   likePost,
+  reportPost,
 };

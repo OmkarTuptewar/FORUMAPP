@@ -3,12 +3,15 @@ import axios from 'axios';
 import PostList from '../components/PostList';
 import { useUser } from '../context/UserContext';
 import { ToastContainer } from 'react-toastify';
+import Loader from '../components/Loadermodal';
+import Header from '../components/Header'; // Import Header
 
 const ViewMyPostsPage = () => {
-  const { user } = useUser();
+  const { user, logout } = useUser(); // Assuming logout function is available in UserContext
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -40,26 +43,47 @@ const ViewMyPostsPage = () => {
 
     fetchPosts();
   }, [user]);
+   
 
+  const searchWords = searchQuery.trim().toLowerCase().split(/\s+/);
+
+  const filteredPosts = posts.filter(post =>
+    searchWords.some(word =>
+      (post.author?.name?.toLowerCase().includes(word) || '') ||
+      (post.title?.toLowerCase().includes(word) || '') ||
+      (post.content?.toLowerCase().includes(word) || '')
+    )
+  );
   const handlePostEdit = (editedData) => {
     setPosts((prevPosts) =>
       prevPosts.map((post) => (post._id === editedData._id ? editedData : post))
     );
   };
 
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <Loader/>
+      </div>
+    );
+  }
+
+
+
   return (
     <>
-    <ToastContainer />
-    <div className=" min-h-screen flex items-center justify-center">
-      {loading && <p className="text-xl">Loading...</p>}
-      {error && <p className="text-xl text-red-500">{error}</p>}
-      {!loading && !error && (
-        <div className="w-full p-4 h-[100vh] overflow-y-auto">
-          <PostList posts={posts} setPosts={setPosts} onEditPost={handlePostEdit} />
+      <ToastContainer />
+      <div className="h-screen flex flex-col ">
+      <Header onSearch={setSearchQuery} />
+        <div className="w-full mt-4 flex-1 overflow-y-auto z-10">
+          {loading && <Loader />}
+          {error && <p className="text-xl text-red-500">{error}</p>}
+          {!loading && !error && (
+            <PostList posts={filteredPosts} setPosts={setPosts} onEditPost={handlePostEdit} />
+          )}
         </div>
-      )}
-    </div>
-  </>
+      </div>
+    </>
   );
 };
 

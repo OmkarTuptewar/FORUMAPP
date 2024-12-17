@@ -3,11 +3,14 @@ import axios from 'axios';
 import PostList from '../components/PostList';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Loader from '../components/Loadermodal';
+import Header from '../components/Header';
 
 const ViewAll = () => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     const fetchAllPosts = async () => {
@@ -37,11 +40,22 @@ const ViewAll = () => {
 
     fetchAllPosts();
   }, []);
+ 
+
+  const searchWords = searchQuery.trim().toLowerCase().split(/\s+/);
+
+  const filteredPosts = posts.filter(post =>
+    searchWords.some(word =>
+      (post.author?.name?.toLowerCase().includes(word) || '') ||
+      (post.title?.toLowerCase().includes(word) || '') ||
+      (post.content?.toLowerCase().includes(word) || '')
+    )
+  );
 
   if (loading) {
     return (
       <div className="flex items-center justify-center h-screen">
-        <p className="text-xl">Loading...</p>
+        <Loader/>
       </div>
     );
   }
@@ -55,10 +69,16 @@ const ViewAll = () => {
   }
 
   return (
-    <div className="overflow-y-auto h-screen">
-      <ToastContainer />
-      <PostList posts={posts} setPosts={setPosts} />
-    </div>
+    <div className="h-screen flex flex-col ">
+      <Header onSearch={setSearchQuery} />
+        <div className="w-full mt-4 flex-1 overflow-y-auto z-10">
+          {loading && <Loader />}
+          {error && <p className="text-xl text-red-500">{error}</p>}
+          {!loading && !error && (
+            <PostList posts={filteredPosts} setPosts={setPosts} />
+          )}
+        </div>
+      </div>
   );
 };
 

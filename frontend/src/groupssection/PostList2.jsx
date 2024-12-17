@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import { useDarkMode } from '../context/DarkModeContext';  // Import the dark mode hook
-import Post from './Post'; // Ensure the path is correct
-import Sidebar from './Sidebar';
-import EditPostModal from './EditPostModal';
+import Post2 from './Post2'
+import EditPostModal2 from './EditPostModal2';
 
-const PostList = ({ posts, setPosts, onEditPost }) => {
+const PostList2 = ({ posts, setPosts, onEditPost }) => {
   const [editingPost, setEditingPost] = useState(null);
   const { isDarkMode } = useDarkMode(); // Get dark mode status
 
@@ -30,7 +29,7 @@ const PostList = ({ posts, setPosts, onEditPost }) => {
     <div className="grid grid-cols-1 gap-3">
       {posts.length > 0 ? (
         posts.map((post) => (
-          <Post key={post._id} post={post} setPosts={setPosts} openEditModal={openEditModal} />
+          <Post2 key={post._id} post={post} setPosts={setPosts} openEditModal={openEditModal} />
         ))
       ) : (
         <div className="text-center text-gray-500">
@@ -40,7 +39,7 @@ const PostList = ({ posts, setPosts, onEditPost }) => {
 
       {/* Edit Post Modal */}
       {editingPost && (
-        <EditPostModal
+        <EditPostModal2
           isOpen={!!editingPost}
           onClose={closeEditModal}
           onSave={(editedData) => {
@@ -58,4 +57,4 @@ const PostList = ({ posts, setPosts, onEditPost }) => {
   );
 };
 
-export default PostList;
+export default PostList2;
