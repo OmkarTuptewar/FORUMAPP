@@ -10,7 +10,9 @@ router.post("/create", protect, createPost);
 router.get("/",  getFeedPosts);
 router.delete("/delete/:id", protect, deletePost);
 router.delete("/edit/:id", protect, deletePost);
-router.get("/:id", protect, getPostById);
+
+router.get("/:id", getPostById);
+
 router.post("/:id/comments", protect, createComment);
 router.put("/:id/like", protect, likePost);
 router.get('/user/:id', protect,getPostsByUserId);

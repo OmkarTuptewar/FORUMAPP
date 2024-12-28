@@ -9,6 +9,8 @@ import '../index.css';
 import Header from '../components/Header';
 import PostList2 from './PostList2';
 import { FaSort, FaTag } from 'react-icons/fa';
+import CalendarWithEvents from './CalendarWithEvents';
+import { toast } from 'react-toastify';
 
 const tagsOptions = [
   { value: "All Posts", label: "All Posts" },
@@ -71,13 +73,44 @@ const GroupDetailPage = () => {
     fetchGroupDetails();
   }, [groupId]);
 
+
+
   const handleCreatePostClick = () => {
-    setIsModalOpen(true); // Set modal open state to true
+ 
+   
+    if (groupDetails?.visibility === 'private') {
+
+    const allowedDomain = groupDetails.accessCriteria?.emailDomain;
+    const userEmail = user?.email;
+    const userDomain = userEmail.split('@')[1];
+
+    if (userDomain !== allowedDomain) {
+      toast.error(`You dont hav an email domain as per the group criteria  to create a post.`);
+      return; // Stop the post creation process
+    }
+
+  }
+
+
+
+    setIsModalOpen(true); // Open the modal to create the post
   };
+
+
 
   const handleCloseModal = () => {
     setIsModalOpen(false); // Close the modal when called
   };
+
+
+
+
+
+
+
+
+
+
 
   const searchWords = searchQuery.trim().toLowerCase().split(/\s+/);
 
@@ -101,9 +134,10 @@ const GroupDetailPage = () => {
   };
 
   return (
-    <div className={`group-detail-page p-4 lg:p-6 overflow-y-auto transition-all h-screen duration-300 ${isDarkMode ? "bg-gray-900 text-gray-100" : "bg-white text-gray-800"}`}>
+    <div className={`group-detail-page p-4 lg:p-6 overflow-y-auto transition-all h-screen duration-300 ${isDarkMode ? "bg-gray-900 text-gray-100" : "bg-white text-gray-800"}`
+    } style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
       {/* Fixed Header */}
-      <div className="fixed top-0 left-0 lg:ml-60 md:ml-0 right-0 z-20 bg-white dark:bg-gray-800 shadow">
+      <div className="fixed top-0 left-0 lg:ml-60 md:ml-0 right-0 z-20  bg-white dark:bg-gray-800 shadow">
         <Header onSearch={setSearchQuery} />
       </div>
 
@@ -167,7 +201,8 @@ const GroupDetailPage = () => {
           </div>
 
           {/* Display Posts */}
-          <div className="overflow-y-auto -mt-12 h-[60vh] lg:h-[80vh] w-[110vh]">
+          <div className="overflow-y-auto -mt-12 h-[60vh] lg:h-[80vh] w-[110vh]"
+          >
             <PostList2 posts={filteredPosts} setPosts={setPosts} />
           </div>
 
@@ -185,14 +220,19 @@ const GroupDetailPage = () => {
         <div className="w-px bg-gray-300 dark:bg-gray-600 mx-4"></div>
 
         {/* Chat Section */}
-        <div className="chat-section w-3/5">
-          <div>
-            <h1 className="text-xl font-extrabold text-center -mt-3">Chat Section</h1>
-          </div>
-          <div className="h-[84vh] overflow-auto custom-scrollbar">
-            <ChatSection />
-          </div>
-        </div>
+        <div className="chat-section w-full md:w-3/5 h-0 ">
+  {/* Calendar Section */}
+  <div className="p-3">
+  <CalendarWithEvents groupDetails={groupDetails} /> {/* Pass groupDetails as prop */}
+</div>
+
+
+  {/* Chat Section */}
+  <div className=" p-3">
+    <ChatSection />
+  </div>
+</div>
+
       </div>
     </div>
   );

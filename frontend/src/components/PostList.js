@@ -25,7 +25,7 @@ const PostList = ({ posts, setPosts, onEditPost }) => {
   };
 
   return (
-    <div className={`flex ${isDarkMode ? 'bg-gray-900 text-white' : 'bg-white text-gray-900'}`}>
+    <div className={`flex ${isDarkMode ? 'bg-gray-900 text-white ' : ' text-gray-900'}`}>
   <main className="w-full lg:w-5/6  mx-0 lg:mx-20"> {/* Removed mr-20 and ml-20 for smaller screens */}
     <div className="grid grid-cols-1 gap-3">
       {posts.length > 0 ? (

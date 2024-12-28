@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios'; // Ensure axios is installed
-import { ToastContainer, toast } from 'react-toastify'; // Import React Toastify
+import {  toast } from 'react-toastify'; // Import React Toastify
 import 'react-toastify/dist/ReactToastify.css'; // Import Toastify CSS
 import { useDarkMode } from '../context/DarkModeContext';
 const Modal = ({ isOpen, onClose,onSubmit}) => {
@@ -148,7 +148,7 @@ const Modal = ({ isOpen, onClose,onSubmit}) => {
 
   return (
     <>
-    <ToastContainer /> {/* Toast container to display toasts */}
+  
   
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
   <div className="bg-white dark:bg-gray-800 p-6 rounded-lg w-full sm:w-10/12 md:w-8/12 lg:w-6/12 xl:w-5/12 max-w-lg mx-4">

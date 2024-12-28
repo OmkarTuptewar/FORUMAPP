@@ -14,12 +14,15 @@ const GroupsPage = () => {
   const [groupName, setGroupName] = useState("");
   const [groupDescription, setGroupDescription] = useState("");
   const [additionalDetails, setAdditionalDetails] = useState("");
+  const [visibility, setVisibility] = useState("public");
+  const [allowedDomains, setAllowedDomains] = useState([]);
   const [groups, setGroups] = useState([]);
   const [filteredGroups, setFilteredGroups] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  // Fetch and sort groups by visibility
   useEffect(() => {
     const fetchGroups = async () => {
       try {
@@ -29,8 +32,14 @@ const GroupsPage = () => {
             headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
           }
         );
-        setGroups(response.data);
-        setFilteredGroups(response.data); // Initialize filtered groups
+        // Sort groups: public first, then private
+        const sortedGroups = response.data.sort((a, b) => {
+          if (a.visibility === "public" && b.visibility !== "public") return -1;
+          if (a.visibility !== "public" && b.visibility === "public") return 1;
+          return 0; // If both have the same visibility, maintain original order
+        });
+        setGroups(sortedGroups);
+        setFilteredGroups(sortedGroups); // Initialize filtered groups with sorted data
       } catch (error) {
         toast.error("Failed to fetch groups.");
         setError("Failed to fetch groups.");
@@ -64,28 +73,44 @@ const GroupsPage = () => {
 
   const handleCreateGroup = async (e) => {
     e.preventDefault();
+
+    if (!groupName || !groupDescription) {
+      toast.error("Name and description are required.");
+      return;
+    }
+
     try {
       const response = await axios.post(
         `${process.env.REACT_APP_API_URL}/api/group/create`,
-        { name: groupName, description: groupDescription, details: additionalDetails },
+        {
+          name: groupName,
+          description: groupDescription,
+          details: additionalDetails,
+          visibility,
+          allowedDomains,
+        },
         { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
       );
+
       setGroups([...groups, response.data]);
       toast.success("Group created successfully!");
       setIsModalOpen(false);
     } catch (error) {
-      toast.error("Failed to create group.");
+      console.error("Error creating group:", error); // Log the error on frontend
+      toast.error(error.response?.data?.message || "Failed to create group.");
     }
   };
+   
+
+  const alternatingColors = ['bg-pink-100', 'bg-blue-100'];
+
 
   return (
-    <div className="p-6 h-screen overflow-y-auto">
-      {/* Fixed Header */}
-      <div className="fixed top-0 left-0 lg:ml-60 md:ml-0 right-0 z-20 bg-white dark:bg-gray-800 shadow">
+    <div className="p-6 h-screen overflow-y-auto ">
+      <div className="fixed top-0 left-0 lg:ml-60 md:ml-0 right-0 z-20   dark:bg-gray-800 shadow">
         <Header onSearch={setSearchQuery} />
       </div>
 
-      {/* Page Content */}
       <div className="flex justify-between items-center mt-16">
         <h1 className="text-3xl font-semibold text-gray-800 dark:text-gray-200">
           Groups
@@ -99,15 +124,18 @@ const GroupsPage = () => {
         </button>
       </div>
 
-      {/* Loading and Error States */}
       {loading && <div className="text-center mt-4">Loading groups...</div>}
       {error && <div className="text-center text-red-500 mt-4">{error}</div>}
 
-      {/* Groups Grid */}
       {filteredGroups.length > 0 ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mt-8">
-          {filteredGroups.map((group) => (
-            <GroupCard key={group._id} group={group} />
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 ">
+          {filteredGroups.map((group,index) => (
+            <GroupCard
+              key={group._id}
+              group={group}
+              bgColor={alternatingColors[index % alternatingColors.length]} // Assign color based on index
+      
+            />
           ))}
         </div>
       ) : (
@@ -117,7 +145,6 @@ const GroupsPage = () => {
         )
       )}
 
-      {/* Group Modal */}
       <GroupCardModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
@@ -128,6 +155,8 @@ const GroupsPage = () => {
         setGroupName={setGroupName}
         setGroupDescription={setGroupDescription}
         setAdditionalDetails={setAdditionalDetails}
+        setVisibility={setVisibility}
+        setAllowedDomains={setAllowedDomains}
         isDarkMode={isDarkMode}
       />
     </div>
@@ -135,4 +164,3 @@ const GroupsPage = () => {
 };
 
 export default GroupsPage;
-  

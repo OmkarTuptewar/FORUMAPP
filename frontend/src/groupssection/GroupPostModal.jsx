@@ -139,7 +139,7 @@ const GroupPostModal = ({ isOpen, onClose, onSubmit, groupId }) => {
 
   return (
     <>
-    <ToastContainer />
+ 
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-20">
       <div
         className={`${

@@ -184,6 +184,59 @@ const Post = ({ post, setPosts }) => {
       });
   };
 
+  const handleSend = () => {
+    const postUrl = `${window.location.origin}/posts/${post._id}`;
+  
+    if (navigator.share) {
+      // Using the Web Share API for supported browsers
+      navigator.share({
+        title: 'Check out this post!',
+        url: postUrl,
+      })
+        .then(() => {
+          toast.success('Post URL shared!', {
+            position: 'bottom-left',
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+          });
+        })
+        .catch(() => {
+          toast.error('Failed to share URL. Please try manually.', {
+            position: 'bottom-left',
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+          });
+        });
+    } else {
+      // Fallback: Show custom links for popular apps if Web Share API is not available
+      const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(postUrl)}`;
+      const linkedinUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(postUrl)}`;
+      const gmailUrl = `mailto:?subject=Check%20this%20out&body=${encodeURIComponent(postUrl)}`;
+  
+      const shareOptions = `
+        <div>
+          <p>Share via:</p>
+          <ul>
+            <li><a href="${whatsappUrl}" target="_blank" rel="noopener noreferrer">WhatsApp</a></li>
+            <li><a href="${linkedinUrl}" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+            <li><a href="${gmailUrl}" target="_blank" rel="noopener noreferrer">Gmail</a></li>
+          </ul>
+        </div>
+      `;
+  
+      const shareWindow = window.open();
+      shareWindow.document.write(shareOptions);
+      shareWindow.document.close();
+    }
+  };
+  
+
   // Delete post handler
   const handleDelete = async () => {
     if (!window.confirm('Are you sure you want to delete this post?')) {
@@ -301,7 +354,6 @@ const Post = ({ post, setPosts }) => {
   const isAuthor = currentUserId === post.author?._id;
   return (
     <>
-  
   <div
   className={`${
     isDarkMode ? 'bg-gray-800 text-gray-100' : 'bg-white text-gray-800'
@@ -439,6 +491,7 @@ const Post = ({ post, setPosts }) => {
       type="button"
       title="Send post"
       className="flex items-center space-x-1 hover:text-gray-400 transition duration-200"
+      onClick={handleSend}
     >
       <img src={sendIcon} alt="Send" className="w-4 h-4" />
       <span>Send</span>

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useUser } from "../context/UserContext"; // Assuming you have a UserContext for user data
 import { useNavigate } from "react-router-dom"; // For navigation
-import { toast, ToastContainer } from "react-toastify";
+import { toast} from "react-toastify";
 import axios from "axios"; // Import axios for API requests
 import { useDarkMode } from '../context/DarkModeContext'; 
 
@@ -169,7 +169,7 @@ const ViewProfilePage = () => {
 
   return (
 <div className={`flex flex-col items-center justify-center min-h-screen px-4 ${isDarkMode ? 'bg-gray-900' : 'bg-gray-100'}`}>
-      <ToastContainer /> {/* Toast container for notifications */}
+    
 
       <h1 className={`text-2xl font-semibold mb-4 text-center ${isDarkMode ? 'text-white' : 'text-gray-800'}`}>
         Profile Overview

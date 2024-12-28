@@ -190,7 +190,7 @@ const Signup = () => {
 
 
     
-      <ToastContainer />
+    
     </section>
     
   

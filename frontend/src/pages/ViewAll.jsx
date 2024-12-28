@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import PostList from '../components/PostList';
-import { ToastContainer } from 'react-toastify';
+
 import 'react-toastify/dist/ReactToastify.css';
 import Loader from '../components/Loadermodal';
 import Header from '../components/Header';
-
+import { useDarkMode } from "../context/DarkModeContext";
 const ViewAll = () => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
-
+    const { isDarkMode } = useDarkMode();
   useEffect(() => {
     const fetchAllPosts = async () => {
       try {
@@ -69,7 +69,7 @@ const ViewAll = () => {
   }
 
   return (
-    <div className="h-screen flex flex-col ">
+    <div className={`h-screen flex flex-col ${isDarkMode ? "bg-gray-900 text-white" : "bg-white text-gray-900"}`}>
       <Header onSearch={setSearchQuery} />
         <div className="w-full mt-4 flex-1 overflow-y-auto z-10">
           {loading && <Loader />}

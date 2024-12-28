@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom/client';
-import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation, useNavigate } from 'react-router-dom';
 import './index.css';
 import App from './App';
 import Login from './pages/auth/LoginPage';
@@ -22,7 +22,9 @@ import ViewAll from './pages/ViewAll';
 import GroupPage from './groupssection/GroupPage';
 import GroupDetailPage from './groupssection/GroupDetailPage';
 import Header from './components/Header';
-
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'; // Import Toast CSS
+import ViewPostPage from './pages/ViewPostPage';
 Modal.setAppElement('#root');
 
 // ProtectedRoute Component
@@ -36,6 +38,8 @@ const MainApp = () => {
 
   // Check if current route is login or signup page
   const isAuthPage = location.pathname === '/login' || location.pathname === '/signup';
+  
+
 
   return (
     <div className="flex">
@@ -50,6 +54,8 @@ const MainApp = () => {
           <Route path="/home" element={<App />} />
           <Route path="/signup" element={user ? <Navigate to="/home" replace /> : <Signup />} />
           <Route path="/login" element={user ? <Navigate to="/home" replace /> : <Login />} />
+          <Route path="/posts/:postId" element={<App/>} /> 
+          <Route path="/joingroups/:groupId/events/:eventId" element={<App/>} />
 
           {/* Protected Routes */}
           <Route
@@ -98,12 +104,16 @@ const MainApp = () => {
             path="/joingroups/:groupId"
             element={<ProtectedRoute user={user}><GroupDetailPage /></ProtectedRoute>}
           />
-
+          
+   
 
           {/* Redirect non-matching routes */}
           <Route path="*" element={<Navigate to="/home" replace />} />
         </Routes>
+
+
       </div>
+   
     </div>
   );
 };
@@ -119,10 +129,43 @@ root.render(
         {/* Wrap the entire application with Router */}
         <Router>
           <React.StrictMode>
+          <ToastContainer
+  position="top-right"
+  autoClose={5000}
+  hideProgressBar={false}
+  newestOnTop={false}
+  closeOnClick
+  rtl={false}
+  pauseOnFocusLoss
+  draggable
+  pauseOnHover
+  theme="colored"
+  className="custom-toast-container"
+  toastClassName="custom-toast"
+  bodyClassName="custom-toast-body"
+  style={{
+    width: "250px", // Reduce container width
+    fontSize: "14px", // Smaller font size
+  }}
+  toastStyle={{
+    padding: "8px", // Decrease padding
+    borderRadius: "6px", // Slightly rounded corners
+    boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)", // Softer shadow
+    minHeight: "40px", // Reduce height
+  }}
+  bodyStyle={{
+    margin: "0", // Adjust spacing
+    fontSize: "13px", // Smaller body font
+    lineHeight: "1.4", // Compact line spacing
+  }}
+/>
+
+
             <MainApp />
           </React.StrictMode>
         </Router>
       </UserProvider>
     </DarkModeProvider>
+  
   </GoogleOAuthProvider>
 );

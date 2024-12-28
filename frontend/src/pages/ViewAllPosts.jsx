@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import PostList from '../components/PostList';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+
 import Loader from '../components/Loadermodal';
 import '../index.css'
 const ViewAllPosts = ({ newPost, searchQuery = '' }) => { // Set a default value for searchQuery
@@ -66,7 +65,7 @@ const ViewAllPosts = ({ newPost, searchQuery = '' }) => { // Set a default value
     <div className="overflow-y-auto h-[68vh] custom-scrollbar">
   
       
-      <ToastContainer />
+  
       <PostList posts={filteredPosts} setPosts={setPosts} />
     </div>
   );

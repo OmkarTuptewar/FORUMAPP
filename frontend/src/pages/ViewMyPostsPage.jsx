@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import PostList from '../components/PostList';
 import { useUser } from '../context/UserContext';
-import { ToastContainer } from 'react-toastify';
+import { useDarkMode } from "../context/DarkModeContext";
 import Loader from '../components/Loadermodal';
 import Header from '../components/Header'; // Import Header
 
@@ -12,6 +12,7 @@ const ViewMyPostsPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
+    const { isDarkMode } = useDarkMode();
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -72,17 +73,20 @@ const ViewMyPostsPage = () => {
 
   return (
     <>
-      <ToastContainer />
-      <div className="h-screen flex flex-col ">
-      <Header onSearch={setSearchQuery} />
-        <div className="w-full mt-4 flex-1 overflow-y-auto z-10">
-          {loading && <Loader />}
-          {error && <p className="text-xl text-red-500">{error}</p>}
-          {!loading && !error && (
-            <PostList posts={filteredPosts} setPosts={setPosts} onEditPost={handlePostEdit} />
-          )}
-        </div>
-      </div>
+     <div className={`h-screen flex flex-col ${isDarkMode ? "bg-gray-900 text-white" : "bg-white text-gray-900"}`}>
+     
+  <Header onSearch={setSearchQuery} />
+  <div className="w-full mt-4 flex-1 overflow-y-auto z-20">
+    {loading && <Loader />}
+    {error && <p className="text-xl text-red-500">{error}</p>}
+   
+    {!loading && !error && (
+      
+      <PostList posts={filteredPosts} setPosts={setPosts} onEditPost={handlePostEdit} />
+    )}
+  </div>
+</div>
+
     </>
   );
 };

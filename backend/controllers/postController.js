@@ -122,7 +122,10 @@ const getPostById = async (req, res) => {
   const postId = req.params.id;
 
   try {
-    const post = await Post.findById(postId).populate("author");
+    const post = await Post.findById(postId).populate("author").populate({
+      path: "comments.user", // Populate the user field in comments
+      select: " name username profilePicture", // Select username and profilePicture
+    });
     if (!post) {
       return res.status(404).json({ message: "Post not found" });
     }

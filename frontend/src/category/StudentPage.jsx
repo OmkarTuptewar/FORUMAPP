@@ -95,6 +95,8 @@ const StudentPage = () => {
       <div className="mt-10 ">
         <PostList  posts={filteredPosts} setPosts={setPosts} />
       </div>
+    
+
     </div>
   </div>
 </div>

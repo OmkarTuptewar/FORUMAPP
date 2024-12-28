@@ -31,7 +31,8 @@ const Header = ({ onSearch }) => {
 
   return (
     <div
-      className={`transition-colors duration-200 ${isDarkMode ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-800'}`}
+    className={`transition-colors duration-200 ${isDarkMode ? 'bg-[#1a202c] text-[#ffffff]' : 'bg-blue-800 text-white'}`}
+
     >
       <div className="flex flex-col shadow-md">
         <div className="flex items-center justify-between h-16 px-4 md:px-8">
@@ -41,7 +42,7 @@ const Header = ({ onSearch }) => {
               alt="Logo"
               className="w-12 h-auto rounded-md shadow-sm md:w-16"
             />
-            <h1 className={`text-2xl font-bold md:text-3xl ${isSearchVisible ? 'hidden' : 'block'} sm:block` }>Knowmyslots</h1>
+            <h1 className={`text-2xl font-bold md:text-3xl ${isSearchVisible ? 'hidden' : 'block'} sm:block` }>KnowMySlots</h1>
           </div>
 
           <div className="flex items-center space-x-2 md:space-x-4">
@@ -104,7 +105,7 @@ const Header = ({ onSearch }) => {
           className={`px-6 py-2 rounded-t-xl ${
             isDarkMode
               ? 'bg-gradient-to-r from-gray-800 to-gray-700'
-              : 'bg-gradient-to-r from-blue-500 to-blue-400 text-white'
+              : 'bg-gradient-to-r from-blue-800 to-blue-600 text-white'
           }`}
         >
           <div className="font-bold text-lg truncate">{user.name}</div>
