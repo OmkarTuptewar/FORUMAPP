@@ -59,7 +59,7 @@ const App = () => {
   return (
     <div className={isDarkMode ? "bg-gray-900 text-white" : "bg-amber-50 text-gray-900"}>
       <div className="flex">
-        <div className="flex flex-col flex-1 p-4">
+        <div className="flex flex-col flex-1 lg:p-4 p-0 ">
           <Header onSearch={setSearchQuery} />
           <div className="relative z-10">
             <img src={backimage} alt="background" className="w-full h-20" />

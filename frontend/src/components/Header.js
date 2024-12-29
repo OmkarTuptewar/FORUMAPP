@@ -31,7 +31,7 @@ const Header = ({ onSearch }) => {
 
   return (
     <div
-    className={`transition-colors duration-200 ${isDarkMode ? 'bg-[#1a202c] text-[#ffffff]' : 'bg-blue-800 text-white'}`}
+    className={`transition-colors duration-200 ${isDarkMode ? 'bg-[#1a202c] text-[#ffffff]' : 'bg-blue-700 text-white'}`}
 
     >
       <div className="flex flex-col shadow-md">
