@@ -177,7 +177,6 @@ const Header = ({ onSearch }) => {
   </div>
 )}
 
-
           </div>
         </div>
       </div>
