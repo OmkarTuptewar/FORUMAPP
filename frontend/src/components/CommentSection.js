@@ -38,7 +38,7 @@ const CommentSection = ({ postId, initialComments, setComments }) => {
     }
 
     try {
-      const token = localStorage.getItem('token');
+      const token =user?.token;
 
       if (!token) {
         toast.error('Authentication token missing. Please log in.');

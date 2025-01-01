@@ -14,7 +14,7 @@ export const UserProvider = ({ children }) => {
 
   // Load the user data from localStorage when the app loads
   useEffect(() => {
-    const storedUser = localStorage.getItem("userInfo");
+    const storedUser = localStorage.getItem("userInfoknowmyslotsforum");
     if (storedUser) {
       setUser(JSON.parse(storedUser));
     }
@@ -23,7 +23,7 @@ export const UserProvider = ({ children }) => {
   // Function to log out the user
   const logout = () => {
     // Clear the user data from localStorage
-    localStorage.removeItem("userInfo");
+    localStorage.removeItem("userInfoknowmyslotsforum");
     localStorage.removeItem("token");
 
     // Set user state to null
@@ -36,7 +36,7 @@ export const UserProvider = ({ children }) => {
       ...prevUser,
       ...updatedUserData,
     }));
-    localStorage.setItem("userInfo", JSON.stringify({
+    localStorage.setItem("userInfoknowmyslotsforum", JSON.stringify({
       ...user,
       ...updatedUserData,
     })); // Update localStorage with new user data

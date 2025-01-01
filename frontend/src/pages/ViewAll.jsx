@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import PostList from '../components/PostList';
-
+import { useUser } from "../context/UserContext"; // Assuming you have a UserContext for user data
 import 'react-toastify/dist/ReactToastify.css';
 import Loader from '../components/Loadermodal';
 import Header from '../components/Header';
@@ -11,11 +11,13 @@ const ViewAll = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
+
+    const { user } = useUser();
     const { isDarkMode } = useDarkMode();
   useEffect(() => {
     const fetchAllPosts = async () => {
       try {
-        const token = localStorage.getItem('token');
+        const token =user?.token;
         if (!token) {
           setError('No authentication token found. Please log in.');
           setLoading(false);
@@ -69,7 +71,7 @@ const ViewAll = () => {
   }
 
   return (
-    <div className={`h-screen flex flex-col ${isDarkMode ? "bg-gray-900 text-white" : "bg-white text-gray-900"}`}>
+    <div className={`h-screen flex flex-col ${isDarkMode ? "bg-gray-900 text-white" : "bg-orange-50 text-gray-900"}`}>
       <Header onSearch={setSearchQuery} />
         <div className="w-full mt-4 flex-1 overflow-y-auto z-10">
           {loading && <Loader />}

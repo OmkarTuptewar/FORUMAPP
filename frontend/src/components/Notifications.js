@@ -12,7 +12,7 @@ const Notification = () => {
     // Fetch notifications
     const fetchNotifications = async () => {
         try {
-            const token = localStorage.getItem("token");
+            const token = user.token;
             if (!user) return;
             const response = await axios.get(
                 `${process.env.REACT_APP_API_URL}/api/notify/getnotifications`,
@@ -36,7 +36,7 @@ const Notification = () => {
     // Mark notification as read
     const markAsRead = async (notificationId) => {
         try {
-            const token = localStorage.getItem("token");
+            const token = user.token;
             if (!user || !token) return;
             await axios.put(
                 `${process.env.REACT_APP_API_URL}/api/notify/${notificationId}/marknotificationasread`,

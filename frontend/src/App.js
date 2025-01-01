@@ -57,7 +57,7 @@ const App = () => {
   };
 
   return (
-    <div className={isDarkMode ? "bg-gray-900 text-white" : "bg-amber-50 text-gray-900"}>
+    <div className={isDarkMode ? "bg-gray-900 text-white" : "bg-orange-50 text-gray-900"}>
       <div className="flex">
         <div className="flex flex-col flex-1 lg:p-4 p-0 ">
           <Header onSearch={setSearchQuery} />

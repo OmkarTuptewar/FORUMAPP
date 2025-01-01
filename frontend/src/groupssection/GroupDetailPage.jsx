@@ -104,14 +104,6 @@ const GroupDetailPage = () => {
 
 
 
-
-
-
-
-
-
-
-
   const searchWords = searchQuery.trim().toLowerCase().split(/\s+/);
 
   // Filter posts based on search query and selected tag
@@ -139,12 +131,12 @@ const GroupDetailPage = () => {
   return (
 <div
   className={`group-detail-page p-4 lg:p-6 overflow-y-auto transition-all h-screen duration-300 ${
-    isDarkMode ? "bg-gray-900 text-gray-100" : "bg-white text-gray-800"
+    isDarkMode ? "bg-gray-900 text-gray-100" : "bg-orange-50 text-gray-800"
   }`}
   style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
 >
   {/* Fixed Header */}
-  <div className="fixed top-0 left-0 lg:ml-60 md:ml-0 right-0 z-20 bg-white dark:bg-gray-800 shadow">
+  <div className="fixed top-0 left-0 lg:ml-60 md:ml-0 right-0 z-20  dark:bg-gray-800 shadow">
     <Header onSearch={setSearchQuery} />
   </div>
 
@@ -206,7 +198,7 @@ const GroupDetailPage = () => {
       </div>
 
       {/* Display Posts */}
-      <div className="overflow-y-auto h-[70vh] lg:h-[70vh] w-full">
+      <div className="overflow-y-auto h-[70vh] lg:h-[75vh] w-full -mt-10">
         <PostList2 posts={filteredPosts} setPosts={setPosts} />
       </div>
 
@@ -254,7 +246,7 @@ const GroupDetailPage = () => {
     </div>
 
     {/* Display both for larger screens */}
-    <div className="hidden lg:flex flex-col space-y-4 flex-grow">
+    <div className="hidden lg:flex flex-col space-y-4 ">
       <CalendarWithEvents groupDetails={groupDetails} />
       <ChatSection />
     </div>

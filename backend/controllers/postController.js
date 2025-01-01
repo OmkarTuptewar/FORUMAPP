@@ -30,14 +30,14 @@ const reportPost = async (req, res) => {
 // Controller to get all feed posts
 const getFeedPosts = async (req, res) => {
   try {
-    const posts = await Post.find()
+    const posts = await Post.find({ group: { $exists: false } }) // Exclude posts with a 'group' field
       .populate({
         path: "author",
         select: "name username profilePicture about", // Only select necessary fields
       })
       .populate({
         path: "comments.user", // Populate the user field in comments
-        select: " name username profilePicture", // Select username and profilePicture
+        select: "name username profilePicture", // Select username and profilePicture
       })
       .sort({ createdAt: -1 });
 

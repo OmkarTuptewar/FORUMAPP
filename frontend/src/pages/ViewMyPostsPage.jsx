@@ -73,7 +73,7 @@ const ViewMyPostsPage = () => {
 
   return (
     <>
-     <div className={`h-screen flex flex-col ${isDarkMode ? "bg-gray-900 text-white" : "bg-white text-gray-900"}`}>
+     <div className={`h-screen flex flex-col ${isDarkMode ? "bg-gray-900 text-white" : "bg-orange-50 text-gray-900"}`}>
      
   <Header onSearch={setSearchQuery} />
   <div className="w-full mt-4 flex-1 overflow-y-auto z-20">

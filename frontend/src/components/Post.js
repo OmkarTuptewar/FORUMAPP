@@ -12,17 +12,16 @@ import { useUser } from '../context/UserContext';
 import CommentSection from './CommentSection';
 import EditPostModal from './EditPostModal';
 import { useDarkMode } from '../context/DarkModeContext';
-// import EditPostModal from './EditPostModal';
+
 
 
 const Post = ({ post, setPosts }) => {
   const { user } = useUser();
-  const {isDarkMode} = useDarkMode(); // Get dark mode state
+  const {isDarkMode} = useDarkMode();
   const currentUserId = user ? user._id : null;
-
   const [isCommentSectionVisible, setIsCommentSectionVisible] = useState(false);
   const [isOptionsMenuVisible, setIsOptionsMenuVisible] = useState(false);
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false); // State for Edit Modal
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false); 
   const [isReportModalVisible, setIsReportModalVisible] = useState(false);
   const [reportReason, setReportReason] = useState('');
   const [reportPosition, setReportPosition] = useState({ top: 0, left: 0 });

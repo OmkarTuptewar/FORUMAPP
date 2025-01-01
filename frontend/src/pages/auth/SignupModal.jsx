@@ -44,7 +44,7 @@ import { useUser } from "../../context/UserContext";
 
       if (response.ok) {
         const userData = await response.json();
-        localStorage.setItem("userInfo", JSON.stringify(userData));
+        localStorage.setItem("userInfoknowmyslotsforum", JSON.stringify(userData));
         localStorage.setItem("token", userData.token);
 
         setUser(userData);

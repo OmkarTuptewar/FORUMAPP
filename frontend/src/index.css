@@ -4,7 +4,7 @@
 
 .custom-scrollbar {
   scrollbar-width:thin;/* Firefox: Thin scrollbar */
-  scrollbar-color: #4A5568 #3c3c3d; /* Thumb and track colors */
+ 
 }
 
 .custom-scrollbar::-webkit-scrollbar {
@@ -17,18 +17,13 @@
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  background-color: #4A5568; /* Darker thumb for contrast */
+
   border-radius: 1px; /* Rounded corners for thumb */
   transition: background-color 0.3s ease; /* Smooth transition for thumb color */
 }
 
-.custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background-color: #2D3748; /* Darker thumb color on hover */
-}
 
-.custom-scrollbar::-webkit-scrollbar-track:hover {
-  background: #E2E8F0; /* Slightly darker track color on hover */
-}
+
 
 
 

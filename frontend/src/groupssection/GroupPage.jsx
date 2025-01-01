@@ -102,11 +102,38 @@ const GroupsPage = () => {
   };
    
 
-  const alternatingColors = ['bg-pink-100', 'bg-blue-100'];
+  // const alternatingColors = ['bg-pink-100', 'bg-blue-100'];
+  const getCardColor = (index, columns, isDarkMode) => {
+    const row = Math.floor(index / columns);
+    const col = index % columns;
+  
+    const isEvenRow = row % 2 === 0;
+    const isEvenCol = col % 2 === 0;
+  
+    if (isDarkMode) {
+      // Colors for dark mode
+      if (isEvenRow) {
+        return isEvenCol ? "bg-gray-950 text-gray-200" : "bg-gray-800 text-gray-300";
+      } else {
+        return isEvenCol ? "bg-gray-800 text-gray-300" : "bg-gray-950 text-gray-200";
+      }
+    } else {
+      // Colors for light mode
+      if (isEvenRow) {
+        return isEvenCol ? "bg-blue-100 text-gray-900" : "bg-orange-100 text-gray-900";
+      } else {
+        return isEvenCol ? "bg-orange-100 text-gray-900" : "bg-blue-100 text-gray-900";
+      }
+    }
+  };
+  
+
+
+
 
 
   return (
-    <div className="p-6 h-screen overflow-y-auto ">
+    <div className="p-6 h-screen overflow-y-auto  bg-white dark:bg-gray-900">
       <div className="fixed top-0 left-0 lg:ml-60 md:ml-0 right-0 z-20   dark:bg-gray-800 shadow">
         <Header onSearch={setSearchQuery} />
       </div>
@@ -133,7 +160,7 @@ const GroupsPage = () => {
             <GroupCard
               key={group._id}
               group={group}
-              bgColor={alternatingColors[index % alternatingColors.length]} // Assign color based on index
+              bgColor={getCardColor(index, 4,isDarkMode)}// Assign color based on index
       
             />
           ))}

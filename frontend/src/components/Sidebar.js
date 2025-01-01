@@ -99,7 +99,7 @@ const Sidebar = () => {
         } md:translate-x-0 md:static flex flex-col ${isDarkMode ? "bg-gray-900 text-gray-100" : "bg-white text-gray-900"} shadow-lg`}
       >
         {/* Header */}
-        <div className={`flex items-center justify-center h-16 text-2xl font-bold tracking-wider ${isDarkMode ? "bg-gray-800" : "bg-gray-100"} border-1 `}>
+        <div className={`flex items-center justify-center h-16 text-2xl font-bold tracking-wider ${isDarkMode ? "bg-gray-800" : "bg-blue-900 text-white "} border-1 `}>
           FORUM
         </div>
 
@@ -116,7 +116,7 @@ const Sidebar = () => {
                     to={to}
                     onClick={(event) => handleLinkClick(to, event)} // Link click handler
                     className={({ isActive }) =>
-                      `${navLinkClasses(isDarkMode)} ${isActive ? (isDarkMode ? "bg-gray-800 text-gray-200" : "bg-blue-800 text-gray-100") : ""} ${isJoinGroups ? 'bg-blue-600 text-white text-sm hover:bg-blue-700 hover:scale-105 hover:shadow-lg transition-all ease-in-out duration-300' : ''}`
+                      `${navLinkClasses(isDarkMode)} ${isActive ? (isDarkMode ? "bg-blue-800 text-gray-200" : "bg-blue-800 text-gray-100") : ""} ${isJoinGroups ? 'bg-blue-600 text-white text-sm hover:bg-blue-700 hover:scale-105 hover:shadow-lg transition-all ease-in-out duration-300' : ''}`
                     }
                     aria-current="page"
                   >
@@ -133,7 +133,7 @@ const Sidebar = () => {
   <h2 className="text-sm font-semibold mb-4 text-center border-b-2 pb-2">
     Explore Categories
   </h2>
-  <div className="space-y-3 text-sm">
+  <div className="space-y-4 text-sm">
     {[
       { to: "/studentpage", icon: FiBookOpen, label: "Student", color: "text-blue-500" },
       { to: "/touristpage", icon: FiMapPin, label: "Tourist", color: "text-green-500" },
@@ -149,10 +149,11 @@ const Sidebar = () => {
           `flex items-center px-6 py-3 rounded-lg shadow-md transition-transform transform hover:scale-105 ${
             isActive
               ? "bg-blue-800 text-white font-bold"
+              : isDarkMode
+              ? "bg-gray-800 text-gray-300"
               : "bg-gray-100 text-gray-900"
           }`
         }
-        aria-current="page"
       >
         <Icon className={`w-6 h-6 mr-3 ${color}`} />
         <span>{label}</span>

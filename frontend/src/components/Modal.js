@@ -3,6 +3,7 @@ import axios from 'axios'; // Ensure axios is installed
 import {  toast } from 'react-toastify'; // Import React Toastify
 import 'react-toastify/dist/ReactToastify.css'; // Import Toastify CSS
 import { useDarkMode } from '../context/DarkModeContext';
+import { useUser } from '../context/UserContext';
 const Modal = ({ isOpen, onClose,onSubmit}) => {
   const { isDarkMode } = useDarkMode(); // Get dark mode status
 
@@ -13,7 +14,7 @@ const Modal = ({ isOpen, onClose,onSubmit}) => {
   const [errorMessage, setErrorMessage] = useState('');
   const [loading, setLoading] = useState(false); // Manage loading state
 
-
+ const { user } = useUser();
 
     const handleImageUpload = async (pics) => {
       setLoading(true); // Start loading
@@ -78,7 +79,7 @@ const Modal = ({ isOpen, onClose,onSubmit}) => {
       return; // Prevent submission if image is still uploading
     }
 
-    const token = localStorage.getItem('token');
+    const token =user?.token;
     if (!token) {
       setErrorMessage('No authentication token found. Please log in again.');
       toast.error('Authentication token missing. Please log in again.', {

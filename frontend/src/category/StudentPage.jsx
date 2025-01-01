@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import PostList from '../components/PostList';
-import { ToastContainer } from 'react-toastify';
+// import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Loader from '../components/Loadermodal';
 import PostForm from '../components/PostForm';
 import Header from '../components/Header';
 import { useDarkMode } from "../context/DarkModeContext";
+import { useUser } from '../context/UserContext';
 const StudentPage = () => {
   const [posts, setPosts] = useState([]);
   const { isDarkMode } = useDarkMode();
@@ -14,7 +15,7 @@ const StudentPage = () => {
   const [error, setError] = useState(null);
   const [newPost, setNewPost] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-
+ const { user } = useUser();
   const handleNewPostSubmission = () => {
     setNewPost((prevState) => !prevState);
   };
@@ -23,7 +24,7 @@ const StudentPage = () => {
   const fetchStudentPosts = async () => {
     try {
       setLoading(true);
-      const token = localStorage.getItem('token');
+      const token = user.token;
       if (!token) {
         setError('No authentication token found. Please log in.');
         setLoading(false);
@@ -77,7 +78,7 @@ const StudentPage = () => {
     );
   }
   return (
-    <div className={isDarkMode ? "bg-gray-900 text-white" : "bg-white text-gray-900"}>
+    <div className={isDarkMode ? "bg-gray-900 text-white" : "bg-orange-50 text-gray-900"}>
   <div className="flex h-screen overflow-hidden">
     {/* Main Content Section */}
     <div className="flex flex-col flex-1 overflow-y-auto "> {/* Add padding to avoid overlap with fixed header */}

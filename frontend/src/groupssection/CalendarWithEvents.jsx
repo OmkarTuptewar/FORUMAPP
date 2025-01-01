@@ -21,19 +21,22 @@ const CalendarWithEvents = ({ groupDetails }) => {
   const { groupId } = useParams();
   const { user } = useUser();
   const token = localStorage.getItem("token");
+
+
   const colorPalette = [
-    "#880E4F", 
-    "#B71C1C", 
-    "#1565C0", 
-    "#0277BD", 
-    "#2C6B29", 
-    "#F57C00", 
-    "#6A1B9A", 
-    "#01579B",
-    "#512DA8", 
-    "#01579B", 
-    "#00695E", 
+    "#F8BBD0", // Pastel Pink
+    "#FFCDD2", // Pastel Red
+    "#BBDEFB", // Pastel Blue
+    "#B3E5FC", // Pastel Sky Blue
+    "#C8E6C9", // Pastel Green
+    "#FFE0B2", // Pastel Orange
+    "#E1BEE7", // Pastel Purple
+    "#B2EBF2", // Pastel Cyan
+    "#D1C4E9", // Pastel Lavender
+    "#CFD8DC", // Pastel Teal
+    "#E0F7FA", // Light Aqua
   ];
+  
   
   
 
@@ -175,62 +178,70 @@ const CalendarWithEvents = ({ groupDetails }) => {
 
   return (
     <div
-    className={`max-w-sm p-3 rounded-3xl shadow-lg transition-all duration-300 ${
+    className={`w-[350px] p-3    rounded-3xl shadow-lg transition-all duration-300 ${
       isDarkMode
-        ? "bg-gradient-to-t from-black-900 via-gray-900 to-gray-900 text-white"
-        : "bg-gradient-to-t from-gray-900 via-gray-900 to-gray-900 text-white"
+        ? "bg-gradient-to-t bg-gray-800 text-black"
+        : "bg-gradient-to-t bg-white text-black"
     }`}
   >
     {/* Month and Year Header */}
-    <div className="flex items-center justify-between mb-3">
-      {/* Previous Month Button */}
-      <button
-        onClick={() => changeMonth(-1)}
-        className="w-6 h-6 rounded-full text-white flex items-center justify-center hover:bg-teal-800 dark:hover:bg-teal-700"
-      >
-        {"<"}
-      </button>
-  
-      {/* Current Month and Year */}
-      <h1
-        className={`text-md font-semibold ${
-          isDarkMode ? "text-teal-400" : "text-teal-600"
-        }`}
-      >
-        {currentMonth} {currentYear}
-      </h1>
-  
-      {/* Next Month Button */}
-      <button
-        onClick={() => changeMonth(1)}
-        className="w-6 h-6 rounded-full text-white flex items-center justify-center hover:bg-teal-800 dark:hover:bg-teal-700"
-      >
-        {">"}
-      </button>
-  
-      {/* Add Event Button */}
-      <button
-        onClick={() => {
-          // Check if the group is private and user email domain matches
-          if (groupDetails?.visibility === 'private') {
-            const allowedDomain = groupDetails.accessCriteria?.emailDomain;
-            const userEmail = user?.email;
-            const userDomain = userEmail?.split('@')[1];
-  
-            if (userDomain !== allowedDomain) {
-              toast.error(`You don't have an email domain as per the group criteria.`);
-              return; // Stop the modal from opening if criteria are not met
-            }
-          }
-  
-          // If conditions are met, open the modal
-          setIsModalOpen(true);
-        }}
-        className="w-6 h-6 bg-pink-500 text-white flex items-center justify-center rounded-full hover:bg-pink-600 dark:hover:bg-pink-400 ml-16"
-      >
-        +
-      </button>
-    </div>
+<div className="flex items-center justify-between mb-3">
+  {/* Previous Month Button */}
+  <button
+    onClick={() => changeMonth(-1)}
+    className="w-6 h-6 rounded-full text-black flex items-center justify-center hover:bg-teal-800 dark:hover:bg-teal-700"
+  >
+    {"<"}
+  </button>
+
+  {/* Current Month and Year */}
+  <div className="flex items-center">
+    <h1
+      className={`text-md font-semibold mx-2 ${
+        isDarkMode ? "text-teal-400" : "text-teal-600"
+      }`}
+    >
+      {currentMonth} {currentYear}
+    </h1>
+  </div>
+
+  {/* Next Month Button */}
+  <button
+    onClick={() => changeMonth(1)}
+    className="w-6 h-6 rounded-full text-black flex items-center justify-center hover:bg-teal-800 dark:hover:bg-teal-700"
+  >
+    {">"}
+  </button>
+
+  {/* Add Event Button */}
+  <button
+    onClick={() => {
+      // Check if the group is private and user email domain matches
+      if (groupDetails?.visibility === "private") {
+        const allowedDomain = groupDetails.accessCriteria?.emailDomain;
+        const userEmail = user?.email;
+        const userDomain = userEmail?.split("@")[1];
+
+        if (userDomain !== allowedDomain) {
+          toast.error(
+            `You don't have an email domain as per the group criteria.`
+          );
+          return; // Stop the modal from opening if criteria are not met
+        }
+      }
+
+      // If conditions are met, open the modal
+      setIsModalOpen(true);
+    }}
+    className="w-8 h-8 bg-pink-500 text-white flex items-center justify-center rounded-xl hover:bg-pink-600 dark:hover:bg-pink-400 ml-4"
+  >
+    +
+  </button>
+</div>
+
+
+
+
   
     {/* Loading/Error State */}
     {isLoading && <p className="text-gray-300 text-center text-xs">Loading events...</p>}
@@ -247,7 +258,7 @@ const CalendarWithEvents = ({ groupDetails }) => {
           >
             {/* Date in a Circle */}
             <div
-              className="w-7 h-7 mt-3 flex items-center justify-center text-white font-extrabold rounded-full text-xs"
+              className="w-7 h-7 mt-3 flex items-center justify-center text-black font-bold rounded-full text-xs"
               style={{ backgroundColor: colorMap.get(new Date(event.date).toDateString()) }}
             >
               {new Date(event.date).getDate()}
@@ -261,8 +272,8 @@ const CalendarWithEvents = ({ groupDetails }) => {
               <div className="flex justify-between items-center w-full">
                 {/* Event Name */}
                 <p
-                  className={`text-xs font-bold text-white overflow-hidden text-ellipsis whitespace-nowrap max-w-[calc(100%-36px)] ${
-                    isDarkMode ? "dark:text-white" : "text-black"
+                  className={`text-xs font-bold text-black overflow-hidden text-ellipsis whitespace-nowrap max-w-[calc(100%-36px)] ${
+                    isDarkMode ? "dark:text-black" : "text-black"
                   }`}
                   title={event.name}
                 >
@@ -282,7 +293,7 @@ const CalendarWithEvents = ({ groupDetails }) => {
   
               {/* Event Description */}
               <p
-                className="text-xs text-white mt-1 font-mono overflow-hidden text-ellipsis whitespace-nowrap max-w-[calc(100%-48px)]"
+                className="text-xs text-black  mt-1 font-mono overflow-hidden text-ellipsis whitespace-nowrap max-w-[calc(100%-48px)]"
                 title={event.description}
               >
                 {event.description}

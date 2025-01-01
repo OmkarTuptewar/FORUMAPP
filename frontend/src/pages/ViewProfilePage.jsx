@@ -168,7 +168,7 @@ const ViewProfilePage = () => {
   
 
   return (
-<div className={`flex flex-col items-center justify-center min-h-screen px-4 ${isDarkMode ? 'bg-gray-900' : 'bg-gray-100'}`}>
+<div className={`flex flex-col items-center justify-center min-h-screen px-4 ${isDarkMode ? 'bg-gray-900' : 'bg-orange-50'}`}>
     
 
       <h1 className={`text-2xl font-semibold mb-4 text-center ${isDarkMode ? 'text-white' : 'text-gray-800'}`}>

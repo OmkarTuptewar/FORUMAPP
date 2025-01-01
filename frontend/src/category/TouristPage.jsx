@@ -7,6 +7,7 @@ import Loader from '../components/Loadermodal';
 import PostForm from '../components/PostForm';
 import Header from '../components/Header';
 import { useDarkMode } from "../context/DarkModeContext";
+import { useUser } from '../context/UserContext';
 
 const TouristPage = () => {
   const [posts, setPosts] = useState([]);
@@ -15,7 +16,7 @@ const TouristPage = () => {
   const [error, setError] = useState(null);
   const [newPost, setNewPost] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-
+ const { user } = useUser();
   const handleNewPostSubmission = () => {
     setNewPost((prevState) => !prevState);
   };
@@ -23,7 +24,7 @@ const TouristPage = () => {
   const fetchTouristPosts = async () => {
     try {
       setLoading(true);
-      const token = localStorage.getItem('token');
+      const token = user.token;
       if (!token) {
         setError('No authentication token found. Please log in.');
         setLoading(false);
@@ -77,7 +78,7 @@ const TouristPage = () => {
   }
 
   return (
-    <div className={isDarkMode ? "bg-gray-900 text-white" : "bg-white text-gray-900"}>
+    <div className={isDarkMode ? "bg-gray-900 text-white" : "bg-orange-50 text-gray-900"}>
       <div className="flex h-screen overflow-hidden">
         {/* Main Content Section */}
         <div className="flex flex-col flex-1 overflow-y-auto">

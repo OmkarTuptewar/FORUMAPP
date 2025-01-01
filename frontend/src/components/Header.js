@@ -31,7 +31,7 @@ const Header = ({ onSearch }) => {
 
   return (
     <div
-    className={`transition-colors duration-200 ${isDarkMode ? 'bg-[#1a202c] text-[#ffffff]' : 'bg-blue-700 text-white'}`}
+    className={`transition-colors duration-200 ${isDarkMode ? 'bg-[#1a202c] text-[#ffffff]' : 'bg-white text-black'}`}
 
     >
       <div className="flex flex-col shadow-md">
@@ -105,7 +105,7 @@ const Header = ({ onSearch }) => {
           className={`px-6 py-2 rounded-t-xl ${
             isDarkMode
               ? 'bg-gradient-to-r from-gray-800 to-gray-700'
-              : 'bg-gradient-to-r from-blue-800 to-blue-600 text-white'
+              : 'bg-gradient-to-r from-blue-900 to-blue-800 text-white'
           }`}
         >
           <div className="font-bold text-lg truncate">{user.name}</div>

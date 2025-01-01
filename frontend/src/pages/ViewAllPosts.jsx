@@ -62,7 +62,7 @@ const ViewAllPosts = ({ newPost, searchQuery = '' }) => { // Set a default value
   }
 
   return (
-    <div className="overflow-y-auto h-[68vh] custom-scrollbar">
+    <div className="overflow-y-auto h-[68vh] custom-scrollbar bg-orange-50">
   
       
   

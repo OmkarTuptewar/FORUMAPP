@@ -25,8 +25,8 @@ const ChatSection = () => {
   };
 
   return (
-    <div className="max-w-sm flex items-center justify-center bg-gray-100 dark:bg-gray-800 rounded-3xl">
-    <div className="chat-section h-full flex flex-col bg-gray-100 dark:bg-gray-800 p-4 rounded-lg max-w-xs w-full">
+    <div className="max-w-sm flex items-center justify-center bg-white dark:bg-gray-800 rounded-3xl">
+    <div className="chat-section h-full flex flex-col bg-white dark:bg-gray-800 p-4 rounded-lg max-w-xs w-full">
       {/* Messages Container */}
       <div
         className="flex flex-col flex-grow overflow-y-auto h-[32vh]  space-y-2 mb-3 pr-1"

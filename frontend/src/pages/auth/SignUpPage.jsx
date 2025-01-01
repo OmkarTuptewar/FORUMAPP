@@ -43,7 +43,7 @@ const Signup = () => {
         const userData = await response.json();
 
       
-        localStorage.setItem('userInfo', JSON.stringify(userData));
+        localStorage.setItem('userInfomyslotsforum', JSON.stringify(userData));
         localStorage.setItem('token', userData.token);
        
         setUser(userData);
